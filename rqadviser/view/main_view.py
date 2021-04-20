@@ -1,14 +1,20 @@
-from PyQt5.QtWidgets import QWidget, QMainWindow, QApplication
-
+from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QTableWidget
 from rqadviser.view.menu_view import MenuViewHelper
+from rqadviser.model.model_main import ModelMain
+from rqadviser.signals.file_chosen import FileChosen
 
 
 class MainView(QMainWindow):
+    __model: ModelMain
+
     def __init__(self, controller, model, parent=None):
-        super(QWidget, self).__init__(parent)
+        super(QMainWindow, self).__init__(parent)
         self.__controller = controller
         self.__model = model
         self.__init_ui()
+
+        self.__signal_file_chosen = FileChosen()
+        self.__connect()
 
     def __init_ui(self):
         self.setWindowTitle("Проверка требований на противоречивость")
@@ -28,8 +34,20 @@ class MainView(QMainWindow):
         menu_helper.create_menu()
         self.menuBar().addMenu(menu_helper.project_menu)
 
+    def __connect(self):
+        self.__signal_file_chosen.signal.connect(self.__controller.file_chosen_slot)
+
     def new_project_slot(self):
-        print("TBD: Создание нового проекта")
+        self.hide()
+        # TODO проверку, что файл выбран
+        dialog = QFileDialog()
+        file_name, _ = dialog.getOpenFileNames(self, 'Выберите файл .csv:', filter="CSV Files (*.csv)")
+        self.show()
+        self.__signal_file_chosen.signal.emit(file_name[0])
+
+    def df_changed_slot(self):
+        df = self.__model.data_frame.df
+
 
     def download_project_slot(self):
         print("TBD: Загрузка проекта")
