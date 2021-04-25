@@ -1,7 +1,6 @@
 import os
 import sys
 from PyQt5.QtWidgets import QApplication
-from PyQt5.QtCore import QLoggingCategory
 
 
 from rqadviser.model.model_main import ModelMain

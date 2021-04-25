@@ -3,6 +3,7 @@ from rqadviser.view.menu_view import MenuViewHelper
 from rqadviser.model.model_main import ModelMain
 from rqadviser.signals.file_chosen import FileChosen
 from rqadviser.view.table_view import TableView
+from rqadviser.view.single_view import SingleView
 
 
 class MainView(QMainWindow):
@@ -15,6 +16,8 @@ class MainView(QMainWindow):
         self.__init_ui()
 
         self.__signal_file_chosen = FileChosen()
+
+        self.__single_view = SingleView()
         self.__connect()
 
     def __init_ui(self):
@@ -50,6 +53,14 @@ class MainView(QMainWindow):
         df = self.__model.data_frame.df
         table_view = TableView(self, df)
         table_view.create_table()
+        table_view.create_buttons()
+
+    def single_check_chosen_slot(self):
+        self.__single_view.show()
+        print(self.__single_view.size())
+
+    def full_check_chosen_slot(self):
+        print('f')
 
     def download_project_slot(self):
         print("TBD: Загрузка проекта")
