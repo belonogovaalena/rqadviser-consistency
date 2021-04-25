@@ -1,7 +1,8 @@
-from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QTableWidget
+from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QTableWidget, QTableView
 from rqadviser.view.menu_view import MenuViewHelper
 from rqadviser.model.model_main import ModelMain
 from rqadviser.signals.file_chosen import FileChosen
+from rqadviser.view.table_view import TableView
 
 
 class MainView(QMainWindow):
@@ -47,7 +48,8 @@ class MainView(QMainWindow):
 
     def df_changed_slot(self):
         df = self.__model.data_frame.df
-
+        table_view = TableView(self, df)
+        table_view.create_table()
 
     def download_project_slot(self):
         print("TBD: Загрузка проекта")

@@ -1,3 +1,5 @@
+import os
+
 from rqadviser.view.main_view import MainView
 from rqadviser.controller.controller_csv import ControllerCsv
 from rqadviser.controller.controller_settings import ControllerSettings
@@ -20,12 +22,13 @@ class ControllerMain:
 
     def file_chosen_slot(self, file_name):
         self.__create_project(file_name, self.__model.settings.saves_path)
-        self.__parse_data_frame(file_name)
+        self.__parse_data_frame()
 
     def __create_project(self, file_name, root):
         project_name = self.__setting_controller.create_project(file_name, root)
         self.__model.settings.project_name = project_name
 
-    def __parse_data_frame(self, file_name):
-        df = self.__csv_controller.parse_csv(file_name)
+    def __parse_data_frame(self):
+        file_path = os.path.join(self.__model.settings.saves_path, self.__model.settings.project_name, 'data.csv')
+        df = self.__csv_controller.parse_csv(file_path)
         self.__model.data_frame.df = df
