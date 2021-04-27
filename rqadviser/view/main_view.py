@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QTableWidget
 from rqadviser.view.menu_view import MenuViewHelper
 from rqadviser.model.model_main import ModelMain
 from rqadviser.signals.file_chosen import FileChosen
+from rqadviser.signals.check_single_requirement import CheckSingleRequirement
 from rqadviser.view.table_view import TableView
 from rqadviser.view.single_view import SingleCheckView
 from rqadviser.view.full_view import FullCheckView
@@ -21,6 +22,7 @@ class MainView(QMainWindow):
         self.__table_view = None
 
         self.__signal_file_chosen = FileChosen()
+        self.__check_single_requirement = CheckSingleRequirement()
 
         self.__connect()
 
@@ -44,6 +46,7 @@ class MainView(QMainWindow):
 
     def __connect(self):
         self.__signal_file_chosen.signal.connect(self.__controller.file_chosen_slot)
+        self.__check_single_requirement.signal.connect(self.__controller.check_single_requirement_slot)
 
     def new_project_slot(self):
         self.hide()
@@ -62,13 +65,11 @@ class MainView(QMainWindow):
     def single_check_chosen_slot(self):
         self.__single_check_view.show()
 
-    def single_mode_chosen_slot(self, a, b):
-        print(self.__table_view.get_current())
-        print(a, b)
+    def single_mode_chosen_slot(self, cluster_mode, nlp_mode):
+        self.__check_single_requirement.signal.emit(cluster_mode, nlp_mode, str(self.__table_view.get_current()))
 
     def full_check_chosen_slot(self):
         self.__full_check_view.show()
-        print(self.__full_check_view.size())
 
     def full_mode_chosen_slot(self, a, b, c):
         print(a, b, c)

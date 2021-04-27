@@ -31,6 +31,7 @@ class FullCheckView(QMainWindow):
         self.__create_grid()
 
     def __setup_geometry(self):
+        self.setFixedSize(451, 271)
         frame = self.frameGeometry()
         desktop = QApplication.desktop()
         screen = desktop.screenNumber(desktop.cursor().pos())

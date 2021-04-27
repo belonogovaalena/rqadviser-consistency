@@ -3,6 +3,7 @@ import os
 from rqadviser.view.main_view import MainView
 from rqadviser.controller.controller_csv import ControllerCsv
 from rqadviser.controller.controller_settings import ControllerSettings
+from rqadviser.controller.controller_single_check import ControllerSingleCheck
 from rqadviser.model.model_main import ModelMain
 
 
@@ -14,6 +15,7 @@ class ControllerMain:
 
         self.__csv_controller = ControllerCsv()
         self.__setting_controller = ControllerSettings()
+        self.__single_check_controller = ControllerSingleCheck()
 
         self.__view = MainView(self, self.__model)
 
@@ -32,3 +34,10 @@ class ControllerMain:
         file_path = os.path.join(self.__model.settings.saves_path, self.__model.settings.project_name, 'data.csv')
         df = self.__csv_controller.parse_csv(file_path)
         self.__model.data_frame.df = df
+
+    def check_single_requirement_slot(self, cluster_mode, nlp_mode, requirement_id):
+        nlp_model = self.__single_check_controller.init_nlp_model(nlp_mode, self.__model.data_frame.df)
+        if nlp_mode == 0:
+            self.__model.nlp.cosine = nlp_model
+        print(nlp_model.conv_df)
+
