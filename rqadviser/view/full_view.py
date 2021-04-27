@@ -1,19 +1,27 @@
+from PyQt5.QtCore import QRegExp
+from PyQt5.QtGui import QRegExpValidator
 from PyQt5.QtWidgets import QMainWindow, QApplication, QGridLayout, QWidget, QLabel, QButtonGroup, QRadioButton, \
-    QPushButton
-from rqadviser.signals.single_mode_chosen import SingleModeChosen
+    QPushButton, QLineEdit
+from rqadviser.signals.full_mode_chosen import FullModeChosen
 
 
-class SingleCheckView(QMainWindow):
+class FullCheckView(QMainWindow):
 
     def __init__(self, main, parent=None):
         super(QMainWindow, self).__init__(parent)
         self.__main = main
 
-        self.__single_mode_chosen = SingleModeChosen()
-        self.__single_mode_chosen.signal.connect(self.__main.single_mode_chosen_slot)
+        self.__full_mode_chosen = FullModeChosen()
+        self.__full_mode_chosen.signal.connect(self.__main.full_mode_chosen_slot)
 
         self.__buttons_clustering = QButtonGroup()
         self.__buttons_nlp = QButtonGroup()
+        self.__line_dimension = QLineEdit()
+        self.__line_dimension.setPlaceholderText("Максимально допустимое расстояние между требованиями")
+        reg_ex = QRegExp("[0-9]+.?[0-9]{,2}")
+        input_validator = QRegExpValidator(reg_ex, self.__line_dimension)
+        self.__line_dimension.setValidator(input_validator)
+        self.__line_dimension.setAccessibleDescription("asa")
 
         self.__init_ui()
 
@@ -23,7 +31,6 @@ class SingleCheckView(QMainWindow):
         self.__create_grid()
 
     def __setup_geometry(self):
-        self.setFixedSize(451, 240)
         frame = self.frameGeometry()
         desktop = QApplication.desktop()
         screen = desktop.screenNumber(desktop.cursor().pos())
@@ -82,10 +89,13 @@ class SingleCheckView(QMainWindow):
         self.__buttons_clustering.addButton(dbscan_cluster_but, 5)
         grid_layout.addWidget(dbscan_cluster_but, 6, 1)
 
+        grid_layout.addWidget(self.__line_dimension, 7, 0, 1, 0)
+
         ok_but = QPushButton("OK")
         ok_but.clicked.connect(self.on_button_ok_clicked)
-        grid_layout.addWidget(ok_but, 7, 0, 1, 0)
+        grid_layout.addWidget(ok_but, 8, 0, 1, 0)
 
     def on_button_ok_clicked(self):
-        self.__single_mode_chosen.signal.emit(self.__buttons_clustering.checkedId(), self.__buttons_nlp.checkedId())
+        self.__full_mode_chosen.signal.emit(self.__buttons_clustering.checkedId(), self.__buttons_nlp.checkedId(),
+                                            float(self.__line_dimension.text()))
         self.hide()

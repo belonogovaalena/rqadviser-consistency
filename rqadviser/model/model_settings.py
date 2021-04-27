@@ -1,7 +1,7 @@
 class ModelSettings:
     def __init__(self):
         # TODO: инициализировать настройки из файла
-        self.__saves_path = "C:\\Users\\alena\\PycharmProjects\\rqadviser-consistency\\out"
+        self.__saves_path = "/home/belonogova/develop/rqadviser-consistency/out"
         self.__project_name = ""
 
     @property

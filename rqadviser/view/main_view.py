@@ -3,7 +3,8 @@ from rqadviser.view.menu_view import MenuViewHelper
 from rqadviser.model.model_main import ModelMain
 from rqadviser.signals.file_chosen import FileChosen
 from rqadviser.view.table_view import TableView
-from rqadviser.view.single_view import SingleView
+from rqadviser.view.single_view import SingleCheckView
+from rqadviser.view.full_view import FullCheckView
 
 
 class MainView(QMainWindow):
@@ -15,9 +16,12 @@ class MainView(QMainWindow):
         self.__model = model
         self.__init_ui()
 
+        self.__single_check_view = SingleCheckView(self)
+        self.__full_check_view = FullCheckView(self)
+        self.__table_view = None
+
         self.__signal_file_chosen = FileChosen()
 
-        self.__single_view = SingleView()
         self.__connect()
 
     def __init_ui(self):
@@ -51,16 +55,23 @@ class MainView(QMainWindow):
 
     def df_changed_slot(self):
         df = self.__model.data_frame.df
-        table_view = TableView(self, df)
-        table_view.create_table()
-        table_view.create_buttons()
+        self.__table_view = TableView(self, df)
+        self.__table_view.create_table()
+        self.__table_view.create_buttons()
 
     def single_check_chosen_slot(self):
-        self.__single_view.show()
-        print(self.__single_view.size())
+        self.__single_check_view.show()
+
+    def single_mode_chosen_slot(self, a, b):
+        print(self.__table_view.get_current())
+        print(a, b)
 
     def full_check_chosen_slot(self):
-        print('f')
+        self.__full_check_view.show()
+        print(self.__full_check_view.size())
+
+    def full_mode_chosen_slot(self, a, b, c):
+        print(a, b, c)
 
     def download_project_slot(self):
         print("TBD: Загрузка проекта")

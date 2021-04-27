@@ -47,6 +47,8 @@ class TableView:
         self.__table.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.__table.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
         self.__table.setHorizontalScrollMode(QAbstractItemView.ScrollPerPixel)
+        self.__table.setSelectionBehavior(QAbstractItemView.SelectRows)
+        self.__table.setSelectionMode(QAbstractItemView.SingleSelection)
         self.__grid_layout.addWidget(self.__table, 2, 0)
 
     def create_buttons(self):
@@ -58,3 +60,6 @@ class TableView:
         self.__grid_layout.addWidget(full_check_button, 1, 0)
         single_check_button.clicked.connect(self.__main.single_check_chosen_slot)
         full_check_button.clicked.connect(self.__main.full_check_chosen_slot)
+
+    def get_current(self):
+        return self.__table.selectionModel().selectedRows()[0].row()
