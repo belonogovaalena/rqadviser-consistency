@@ -23,7 +23,7 @@ class SingleCheckView(QMainWindow):
         self.__create_grid()
 
     def __setup_geometry(self):
-        self.setFixedSize(451, 240)
+        self.setFixedSize(461, 269)
         frame = self.frameGeometry()
         desktop = QApplication.desktop()
         screen = desktop.screenNumber(desktop.cursor().pos())
@@ -70,21 +70,25 @@ class SingleCheckView(QMainWindow):
         self.__buttons_clustering.addButton(aglo_av_cluster_but, 2)
         grid_layout.addWidget(aglo_av_cluster_but, 3, 1)
 
-        aglo_max_cluster_but = QRadioButton("Aglomerative Max")
+        aglo_max_cluster_but = QRadioButton("Aglomerative Ward")
         self.__buttons_clustering.addButton(aglo_max_cluster_but, 3)
         grid_layout.addWidget(aglo_max_cluster_but, 4, 1)
 
-        aglo_min_cluster_but = QRadioButton("Aglomerative Min")
+        aglo_min_cluster_but = QRadioButton("Aglomerative Сomplete")
         self.__buttons_clustering.addButton(aglo_min_cluster_but, 4)
         grid_layout.addWidget(aglo_min_cluster_but, 5, 1)
 
+        aglo_single_cluster_but = QRadioButton("Aglomerative Single")
+        self.__buttons_clustering.addButton(aglo_single_cluster_but, 5)
+        grid_layout.addWidget(aglo_single_cluster_but, 6, 1)
+
         dbscan_cluster_but = QRadioButton("DBSCAN")
-        self.__buttons_clustering.addButton(dbscan_cluster_but, 5)
-        grid_layout.addWidget(dbscan_cluster_but, 6, 1)
+        self.__buttons_clustering.addButton(dbscan_cluster_but, 6)
+        grid_layout.addWidget(dbscan_cluster_but, 7, 1)
 
         ok_but = QPushButton("OK")
         ok_but.clicked.connect(self.on_button_ok_clicked)
-        grid_layout.addWidget(ok_but, 7, 0, 1, 0)
+        grid_layout.addWidget(ok_but, 8, 0, 1, 0)
 
     def on_button_ok_clicked(self):
         self.__single_mode_chosen.signal.emit(self.__buttons_clustering.checkedId(), self.__buttons_nlp.checkedId())
