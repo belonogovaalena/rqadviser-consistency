@@ -20,6 +20,8 @@ class ControllerMain:
         self.__view = MainView(self, self.__model)
 
         self.__model.data_frame.df_signal.signal.connect(self.__view.df_changed_slot)
+        self.__model.cluster.cluster_signal.signal.connect(self.__view.single_check_complete)
+
         self.__view.show()
 
     def file_chosen_slot(self, file_name):
@@ -41,7 +43,8 @@ class ControllerMain:
         if nlp_mode == 0:
             self.__model.nlp.cosine = nlp_model
         cluster_model = self.__single_check_controller.init_clustering(cluster_mode,
-                                                                       self.__model.data_frame.prepared_df,
+                                                                       self.__model.data_frame.df,
                                                                        nlp_model.conv_df)
-        cluster_model.get_nearest(requirement_id)
+        cluster = cluster_model.get_nearest(requirement_id)
+        self.__model.cluster.requirements_cluster = cluster
 

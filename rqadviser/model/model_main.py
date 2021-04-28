@@ -1,6 +1,7 @@
 from rqadviser.model.model_settings import ModelSettings
 from rqadviser.model.model_dataframe import ModelDataFrame
 from rqadviser.model.model_nlp import ModelNlp
+from rqadviser.model.model_cluster import ModelCluster
 
 
 class ModelMain:
@@ -8,6 +9,7 @@ class ModelMain:
         self.__settings = ModelSettings()
         self.__data_frame = ModelDataFrame()
         self.__nlp = ModelNlp()
+        self.__cluster = ModelCluster()
 
     @property
     def settings(self):
@@ -32,3 +34,11 @@ class ModelMain:
     @nlp.setter
     def nlp(self, value):
         self.__nlp = value
+
+    @property
+    def cluster(self):
+        return self.__cluster
+
+    @cluster.setter
+    def cluster(self, value):
+        self.__cluster = value

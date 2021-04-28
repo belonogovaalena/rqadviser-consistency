@@ -6,6 +6,7 @@ from rqadviser.signals.check_single_requirement import CheckSingleRequirement
 from rqadviser.view.table_view import TableView
 from rqadviser.view.single_view import SingleCheckView
 from rqadviser.view.full_view import FullCheckView
+from rqadviser.view.cluster_view import ClusterView
 
 
 class MainView(QMainWindow):
@@ -67,6 +68,10 @@ class MainView(QMainWindow):
 
     def single_mode_chosen_slot(self, cluster_mode, nlp_mode):
         self.__check_single_requirement.signal.emit(cluster_mode, nlp_mode, str(self.__table_view.get_current()))
+
+    def single_check_complete(self):
+        cluster_view = ClusterView(self.__model.cluster.requirements_cluster, self)
+        cluster_view.show()
 
     def full_check_chosen_slot(self):
         self.__full_check_view.show()

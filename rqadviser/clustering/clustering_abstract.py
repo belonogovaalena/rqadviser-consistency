@@ -13,4 +13,4 @@ class ClusteringAbstract:
     def get_nearest(self, requirement_id):
         # находим, к какому кластеру принадлежит требование с заданным ID
         cluster_id = self._prepared_df.loc[self._prepared_df["ID"] == requirement_id, "Cluster"].values[0]
-        print(self._prepared_df.loc[self._prepared_df["Cluster"] == cluster_id])
+        return self._prepared_df.loc[self._prepared_df["Cluster"] == cluster_id][["ID", "Requirement"]]
