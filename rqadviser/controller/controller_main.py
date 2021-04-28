@@ -39,9 +39,21 @@ class ControllerMain:
         self.__model.data_frame.prepared_df = new_df
 
     def check_single_requirement_slot(self, cluster_mode, nlp_mode, requirement_id):
-        nlp_model = self.__single_check_controller.init_nlp_model(nlp_mode, self.__model.data_frame.prepared_df)
         if nlp_mode == 0:
-            self.__model.nlp.cosine = nlp_model
+            if self.__model.nlp.cosine is None:
+                nlp_model = self.__single_check_controller.init_nlp_model(nlp_mode, self.__model.data_frame.prepared_df)
+                self.__model.nlp.cosine = nlp_model
+            else:
+                nlp_model = self.__model.nlp.cosine
+        elif nlp_mode == 1:
+            if self.__model.nlp.tfidf is None:
+                nlp_model = self.__single_check_controller.init_nlp_model(nlp_mode, self.__model.data_frame.prepared_df)
+                self.__model.nlp.tfidf = nlp_model
+            else:
+                nlp_model = self.__model.nlp.tfidf
+        else:
+            nlp_model = None
+
         cluster_model = self.__single_check_controller.init_clustering(cluster_mode,
                                                                        self.__model.data_frame.df,
                                                                        nlp_model.conv_df)

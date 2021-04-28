@@ -1,4 +1,5 @@
 from rqadviser.nlp.cosine_processor import CosineProcessor
+from rqadviser.nlp.tfidf_processor import TfidfProcessor
 from rqadviser.clustering.kmeans_processor import KmeansProcessor
 
 
@@ -10,7 +11,9 @@ class ControllerSingleCheck:
         nlp_model = None
         if mode == 0:
             nlp_model = CosineProcessor(df)
-            nlp_model.prepare()
+        if mode == 1:
+            nlp_model = TfidfProcessor(df)
+        nlp_model.prepare()
         return nlp_model
 
     def init_clustering(self, mode, prepared_df, conv_df):
