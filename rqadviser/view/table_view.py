@@ -62,4 +62,4 @@ class TableView:
         full_check_button.clicked.connect(self.__main.full_check_chosen_slot)
 
     def get_current(self):
-        nlp_model =  self.__table.model().index(self.__table.currentIndex().row(), 0).data()
+        return self.__table.model().index(self.__table.currentIndex().row(), 0).data()

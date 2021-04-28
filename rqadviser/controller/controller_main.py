@@ -32,12 +32,16 @@ class ControllerMain:
 
     def __parse_data_frame(self):
         file_path = os.path.join(self.__model.settings.saves_path, self.__model.settings.project_name, 'data.csv')
-        df = self.__csv_controller.parse_csv(file_path)
-        self.__model.data_frame.df = df
+        new_df, old_df = self.__csv_controller.parse_csv(file_path)
+        self.__model.data_frame.df = old_df
+        self.__model.data_frame.prepared_df = new_df
 
     def check_single_requirement_slot(self, cluster_mode, nlp_mode, requirement_id):
-        nlp_model = self.__single_check_controller.init_nlp_model(nlp_mode, self.__model.data_frame.df)
+        nlp_model = self.__single_check_controller.init_nlp_model(nlp_mode, self.__model.data_frame.prepared_df)
         if nlp_mode == 0:
             self.__model.nlp.cosine = nlp_model
-        print(nlp_model.conv_df)
+        cluster_model = self.__single_check_controller.init_clustering(cluster_mode,
+                                                                       self.__model.data_frame.prepared_df,
+                                                                       nlp_model.conv_df)
+        cluster_model.get_nearest(requirement_id)
 
