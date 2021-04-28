@@ -2,6 +2,8 @@ class ModelNlp:
     def __init__(self):
         self.__cosine = None
         self.__tfidf = None
+        self.__doc2vec_dm = None
+        self.__doc2vec_dbow = None
 
     @property
     def cosine(self):
@@ -18,3 +20,19 @@ class ModelNlp:
     @tfidf.setter
     def tfidf(self, value):
         self.__tfidf = value
+
+    @property
+    def doc2vec_dm(self):
+        return self.__doc2vec_dm
+
+    @doc2vec_dm.setter
+    def doc2vec_dm(self, value):
+        self.__doc2vec_dm = value
+
+    @property
+    def doc2vec_dbow(self):
+        return self.__doc2vec_dbow
+
+    @doc2vec_dbow.setter
+    def doc2vec_dbow(self, value):
+        self.__doc2vec_dbow = value

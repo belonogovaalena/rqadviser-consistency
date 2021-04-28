@@ -1,6 +1,3 @@
-from abc import abstractmethod
-
-
 class ClusteringAbstract:
     def __init__(self, prepared_df, conv_df, algorithm):
         self._prepared_df = prepared_df

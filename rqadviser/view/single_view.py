@@ -50,13 +50,17 @@ class SingleCheckView(QMainWindow):
         self.__buttons_nlp.addButton(tfidf_nlp_but, 1)
         grid_layout.addWidget(tfidf_nlp_but, 2, 0)
 
-        word2vec_nlp_but = QRadioButton("Word2Vec")
-        self.__buttons_nlp.addButton(word2vec_nlp_but, 2)
-        grid_layout.addWidget(word2vec_nlp_but, 3, 0)
+        doc2vecdm_nlp_but = QRadioButton("Doc2Vec DM")
+        self.__buttons_nlp.addButton(doc2vecdm_nlp_but, 2)
+        grid_layout.addWidget(doc2vecdm_nlp_but, 3, 0)
+
+        doc2vecdbow_nlp_but = QRadioButton("Doc2Vec DBOW")
+        self.__buttons_nlp.addButton(doc2vecdbow_nlp_but, 3)
+        grid_layout.addWidget(doc2vecdbow_nlp_but, 4, 0)
 
         bert_nlp_but = QRadioButton("BERT")
-        self.__buttons_nlp.addButton(bert_nlp_but, 3)
-        grid_layout.addWidget(bert_nlp_but, 4, 0)
+        self.__buttons_nlp.addButton(bert_nlp_but, 4)
+        grid_layout.addWidget(bert_nlp_but, 5, 0)
 
         kmeans_cluster_but = QRadioButton("K-Means++")
         self.__buttons_clustering.addButton(kmeans_cluster_but, 0)
