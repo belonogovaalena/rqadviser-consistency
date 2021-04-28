@@ -4,6 +4,7 @@ class ModelNlp:
         self.__tfidf = None
         self.__doc2vec_dm = None
         self.__doc2vec_dbow = None
+        self.__bert = None
 
     @property
     def cosine(self):
@@ -36,3 +37,11 @@ class ModelNlp:
     @doc2vec_dbow.setter
     def doc2vec_dbow(self, value):
         self.__doc2vec_dbow = value
+
+    @property
+    def bert(self):
+        return self.__bert
+
+    @bert.setter
+    def bert(self, value):
+        self.__bert = value

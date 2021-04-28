@@ -63,6 +63,12 @@ class ControllerMain:
                 self.__model.nlp.doc2vec_dbow = nlp_model
             else:
                 nlp_model = self.__model.nlp.doc2vec_dbow
+        elif nlp_mode == 4:
+            if self.__model.nlp.bert is None:
+                nlp_model = self.__single_check_controller.init_nlp_model(nlp_mode, self.__model.data_frame.df)
+                self.__model.nlp.bert = nlp_model
+            else:
+                nlp_model = self.__model.nlp.bert
         else:
             nlp_model = None
 

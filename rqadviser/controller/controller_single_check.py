@@ -2,6 +2,7 @@ from rqadviser.nlp.cosine_processor import CosineProcessor
 from rqadviser.nlp.tfidf_processor import TfidfProcessor
 from rqadviser.nlp.doc2vecdm_processor import Doc2VecDmProcessor
 from rqadviser.nlp.doc2vecdbow_processor import Doc2VecDbowProcessor
+from rqadviser.nlp.bert_processor import BertProcessor
 from rqadviser.clustering.kmeans_processor import KmeansProcessor
 from rqadviser.clustering.em_processor import EMProcessor
 from rqadviser.clustering.agglomerative_processor import AgglomerativeProcessor
@@ -22,6 +23,8 @@ class ControllerSingleCheck:
             nlp_model = Doc2VecDmProcessor(df)
         if mode == 3:
             nlp_model = Doc2VecDbowProcessor(df)
+        if mode == 4:
+            nlp_model = BertProcessor(df)
         nlp_model.prepare()
         return nlp_model
 
