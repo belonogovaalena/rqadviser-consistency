@@ -1,12 +1,11 @@
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QTableView, QWidget, QGridLayout, QAbstractScrollArea, QAbstractItemView, QPushButton, \
-    QMainWindow
+from PyQt5.QtWidgets import QTableView, QAbstractScrollArea, QAbstractItemView, QMainWindow
 
 from rqadviser.model.model_table import TableModel
 
 
-class ClusterView(QMainWindow):
+class ResultView(QMainWindow):
     def __init__(self, df, parent=None):
         super(QMainWindow, self).__init__(parent)
         self.__df = df
@@ -23,6 +22,6 @@ class ClusterView(QMainWindow):
         table.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
         table.setHorizontalScrollMode(QAbstractItemView.ScrollPerPixel)
         table.setSelectionBehavior(QAbstractItemView.SelectRows)
-        table.setSelectionMode(QAbstractItemView.SingleSelection)
+        # table.setSelectionMode(QAbstractItemView.SingleSelection)
         self.setCentralWidget(table)
 

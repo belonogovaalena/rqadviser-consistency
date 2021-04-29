@@ -34,6 +34,7 @@ class TableView:
         full_check_button = QPushButton("Полная проверка требований")
         single_check_button.setEnabled(False)
         self.__table.selectionModel().selectionChanged.connect(lambda: single_check_button.setEnabled(True))
+        full_check_button.clicked.connect(lambda: single_check_button.setEnabled(True))
         self.__grid_layout.addWidget(single_check_button, 0, 0)
         self.__grid_layout.addWidget(full_check_button, 1, 0)
         single_check_button.clicked.connect(self.__main.single_check_chosen_slot)

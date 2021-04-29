@@ -3,10 +3,11 @@ from rqadviser.view.menu_view import MenuViewHelper
 from rqadviser.model.model_main import ModelMain
 from rqadviser.signals.file_chosen import FileChosen
 from rqadviser.signals.check_single_requirement import CheckSingleRequirement
+from rqadviser.signals.check_full_requirements import CheckFullRequirements
 from rqadviser.view.table_view import TableView
 from rqadviser.view.single_view import SingleCheckView
 from rqadviser.view.full_view import FullCheckView
-from rqadviser.view.cluster_view import ClusterView
+from rqadviser.view.result_view import ResultView
 
 
 class MainView(QMainWindow):
@@ -24,6 +25,7 @@ class MainView(QMainWindow):
 
         self.__signal_file_chosen = FileChosen()
         self.__check_single_requirement = CheckSingleRequirement()
+        self.__check_full_requirements = CheckFullRequirements()
 
         self.__connect()
 
@@ -48,6 +50,7 @@ class MainView(QMainWindow):
     def __connect(self):
         self.__signal_file_chosen.signal.connect(self.__controller.file_chosen_slot)
         self.__check_single_requirement.signal.connect(self.__controller.check_single_requirement_slot)
+        self.__check_full_requirements.signal.connect(self.__controller.check_full_requirements_slot)
 
     def new_project_slot(self):
         self.hide()
@@ -70,14 +73,18 @@ class MainView(QMainWindow):
         self.__check_single_requirement.signal.emit(cluster_mode, nlp_mode, str(self.__table_view.get_current()))
 
     def single_check_complete(self):
-        cluster_view = ClusterView(self.__model.cluster.requirements_cluster, self)
-        cluster_view.show()
+        result_view = ResultView(self.__model.result.requirements_cluster, self)
+        result_view.show()
 
     def full_check_chosen_slot(self):
         self.__full_check_view.show()
 
-    def full_mode_chosen_slot(self, a, b, c):
-        print(a, b, c)
+    def full_mode_chosen_slot(self, cluster_mode, nlp_mode, measure):
+        self.__check_full_requirements.signal.emit(cluster_mode, nlp_mode, measure)
+
+    def full_check_complete(self):
+        result_view = ResultView(self.__model.result.inaccuracies, self)
+        result_view.show()
 
     def download_project_slot(self):
         print("TBD: Загрузка проекта")

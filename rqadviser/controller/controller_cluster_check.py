@@ -9,7 +9,7 @@ from rqadviser.clustering.agglomerative_processor import AgglomerativeProcessor
 from rqadviser.clustering.dbscan_processor import DbscanProcessor
 
 
-class ControllerSingleCheck:
+class ControllerClusterCheck:
     def __init__(self):
         pass
 
