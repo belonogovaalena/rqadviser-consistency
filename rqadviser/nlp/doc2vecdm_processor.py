@@ -2,7 +2,7 @@ from gensim.models import Doc2Vec
 import gensim
 from gensim.models import Doc2Vec
 from sklearn.utils import shuffle
-
+import pandas as pd
 from rqadviser.nlp.nlp_abstract import NlpAbstract
 
 
@@ -27,4 +27,4 @@ class Doc2VecDmProcessor(NlpAbstract):
             self.__model.train(shuffle([x for x in lst]), total_examples=len(lst), epochs=1)
             self.__model.alpha -= 0.002
             self.__model.min_alpha = self.__model.alpha
-        self._conv_df = self.__model.docvecs.doctag_syn0
+        self._conv_df = pd.DataFrame(self.__model.docvecs.doctag_syn0)

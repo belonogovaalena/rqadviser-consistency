@@ -1,5 +1,6 @@
 from sentence_transformers import SentenceTransformer
 from rqadviser.nlp.nlp_abstract import NlpAbstract
+import pandas as pd
 
 
 class BertProcessor(NlpAbstract):
@@ -10,4 +11,4 @@ class BertProcessor(NlpAbstract):
     def prepare(self):
         sentences = self._df["Requirement"].to_list()
         self.__model = SentenceTransformer('paraphrase-xlm-r-multilingual-v1')
-        self._conv_df = self.__model.encode(sentences, show_progress_bar=True)
+        self._conv_df = pd.Pandas(self.__model.encode(sentences, show_progress_bar=True))

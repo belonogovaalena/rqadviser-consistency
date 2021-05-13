@@ -72,13 +72,13 @@ class ControllerMain:
                 nlp_model = self.__model.nlp.tfidf
         elif nlp_mode == 2:
             if self.__model.nlp.doc2vec_dm is None:
-                nlp_model = self.__cluster_check_controller.init_nlp_model(nlp_mode, self.__model.data_frame.prepared_df)
+                nlp_model = self.__cluster_check_controller.init_nlp_model(nlp_mode, self.__model.data_frame.df)
                 self.__model.nlp.doc2vec_dm = nlp_model
             else:
                 nlp_model = self.__model.nlp.doc2vec_dm
         elif nlp_mode == 3:
             if self.__model.nlp.doc2vec_dbow is None:
-                nlp_model = self.__cluster_check_controller.init_nlp_model(nlp_mode, self.__model.data_frame.prepared_df)
+                nlp_model = self.__cluster_check_controller.init_nlp_model(nlp_mode, self.__model.data_frame.df)
                 self.__model.nlp.doc2vec_dbow = nlp_model
             else:
                 nlp_model = self.__model.nlp.doc2vec_dbow
