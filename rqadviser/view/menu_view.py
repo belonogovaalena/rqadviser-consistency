@@ -22,6 +22,7 @@ class MenuViewHelper:
 
         project_menu = QMenu("Проект", self.__main)
 
+        self.__main.signal_file_chosen.signal.connect(lambda: save_action.setEnabled(True))
         project_menu.addAction(new_action)
         project_menu.addAction(download_action)
         project_menu.addAction(save_action)

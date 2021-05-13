@@ -17,15 +17,16 @@ class MainView(QMainWindow):
         super(QMainWindow, self).__init__(parent)
         self.__controller = controller
         self.__model = model
+
+        self.signal_file_chosen = FileChosen()
+        self.__check_single_requirement = CheckSingleRequirement()
+        self.__check_full_requirements = CheckFullRequirements()
+
         self.__init_ui()
 
         self.__single_check_view = SingleCheckView(self)
         self.__full_check_view = FullCheckView(self)
         self.__table_view = None
-
-        self.__signal_file_chosen = FileChosen()
-        self.__check_single_requirement = CheckSingleRequirement()
-        self.__check_full_requirements = CheckFullRequirements()
 
         self.__connect()
 
@@ -48,7 +49,7 @@ class MainView(QMainWindow):
         self.menuBar().addMenu(menu_helper.project_menu)
 
     def __connect(self):
-        self.__signal_file_chosen.signal.connect(self.__controller.file_chosen_slot)
+        self.signal_file_chosen.signal.connect(self.__controller.file_chosen_slot)
         self.__check_single_requirement.signal.connect(self.__controller.check_single_requirement_slot)
         self.__check_full_requirements.signal.connect(self.__controller.check_full_requirements_slot)
 
@@ -58,7 +59,7 @@ class MainView(QMainWindow):
         dialog = QFileDialog()
         file_name, _ = dialog.getOpenFileNames(self, 'Выберите файл .csv:', filter="CSV Files (*.csv)")
         self.show()
-        self.__signal_file_chosen.signal.emit(file_name[0])
+        self.signal_file_chosen.signal.emit(file_name[0])
 
     def df_changed_slot(self):
         df = self.__model.data_frame.df
