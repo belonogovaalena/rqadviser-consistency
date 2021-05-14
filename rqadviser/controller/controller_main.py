@@ -6,6 +6,7 @@ from rqadviser.controller.controller_settings import ControllerSettings
 from rqadviser.controller.controller_cluster_check import ControllerClusterCheck
 from rqadviser.controller.controller_save import ControllerSave
 from rqadviser.model.model_main import ModelMain
+from rqadviser.controller.controller_download import ControllerDownload
 
 
 class ControllerMain:
@@ -18,6 +19,7 @@ class ControllerMain:
         self.__setting_controller = ControllerSettings()
         self.__cluster_check_controller = ControllerClusterCheck()
         self.__save_controller = ControllerSave()
+        self.__download_controller = ControllerDownload()
 
         self.__view = MainView(self, self.__model)
 
@@ -110,3 +112,18 @@ class ControllerMain:
         if self.__model.nlp.bert is not None:
             flag = flag and self.__save_controller.save_to_file(self.__model.nlp.bert, "bert")
         self.__model.save.save_state = flag
+
+    def download_project_slot(self, file_path):
+        root = os.path.dirname(file_path)
+        project_name = str(file_path).split("/")[-1]
+        self.__model.settings.project_name = project_name
+        self.__model.settings.saves_path = root
+        self.__parse_data_frame()
+        self.__download_controller.set_project_path(
+            os.path.join(self.__model.settings.saves_path, self.__model.settings.project_name))
+
+        self.__model.nlp.cosine = self.__download_controller.download_model_if_exists("cosine")
+        self.__model.nlp.tfidf = self.__download_controller.download_model_if_exists("tfidf")
+        self.__model.nlp.doc2vec_dm = self.__download_controller.download_model_if_exists("doc2vec_dm")
+        self.__model.nlp.doc2vec_dbow = self.__download_controller.download_model_if_exists("doc2vec_dbow")
+        self.__model.nlp.bert = self.__download_controller.download_model_if_exists("bert")

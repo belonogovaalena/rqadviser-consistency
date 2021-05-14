@@ -5,6 +5,7 @@ from rqadviser.signals.file_chosen import FileChosen
 from rqadviser.signals.check_single_requirement import CheckSingleRequirement
 from rqadviser.signals.check_full_requirements import CheckFullRequirements
 from rqadviser.signals.save_project import SaveProject
+from rqadviser.signals.download_project import DownloadProject
 from rqadviser.view.table_view import TableView
 from rqadviser.view.single_view import SingleCheckView
 from rqadviser.view.full_view import FullCheckView
@@ -23,6 +24,7 @@ class MainView(QMainWindow):
         self.__check_single_requirement = CheckSingleRequirement()
         self.__check_full_requirements = CheckFullRequirements()
         self.__save_project = SaveProject()
+        self.__download_project = DownloadProject()
 
         self.__init_ui()
 
@@ -55,6 +57,7 @@ class MainView(QMainWindow):
         self.__check_single_requirement.signal.connect(self.__controller.check_single_requirement_slot)
         self.__check_full_requirements.signal.connect(self.__controller.check_full_requirements_slot)
         self.__save_project.signal.connect(self.__controller.save_project_slot)
+        self.__download_project.signal.connect(self.__controller.download_project_slot)
 
     def new_project_slot(self):
         self.hide()
@@ -91,7 +94,11 @@ class MainView(QMainWindow):
         result_view.show()
 
     def download_project_slot(self):
-        print("TBD: Загрузка проекта")
+        self.hide()
+        dialog = QFileDialog()
+        dir_name = dialog.getExistingDirectory(self, 'Выберите директорию проверки')
+        self.show()
+        self.__download_project.signal.emit(dir_name)
 
     def save_project_slot(self):
         self.__save_project.signal.emit()
@@ -105,6 +112,6 @@ class MainView(QMainWindow):
             msg.setText("Ошибка сохранения проекта")
             msg.setIcon(QMessageBox.Critical)
 
-        msg.setWindowTitle("Сохранениt")
+        msg.setWindowTitle("Сохранение")
         msg.setStandardButtons(QMessageBox.Ok)
         msg.show()
