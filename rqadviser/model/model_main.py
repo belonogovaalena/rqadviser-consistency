@@ -2,6 +2,7 @@ from rqadviser.model.model_settings import ModelSettings
 from rqadviser.model.model_dataframe import ModelDataFrame
 from rqadviser.model.model_nlp import ModelNlp
 from rqadviser.model.model_result import ModelResult
+from rqadviser.model.model_save import ModelSave
 
 
 class ModelMain:
@@ -10,6 +11,7 @@ class ModelMain:
         self.__data_frame = ModelDataFrame()
         self.__nlp = ModelNlp()
         self.__result = ModelResult()
+        self.__save = ModelSave()
 
     @property
     def settings(self):
@@ -42,3 +44,11 @@ class ModelMain:
     @result.setter
     def result(self, value):
         self.__result = value
+
+    @property
+    def save(self):
+        return self.__save
+
+    @save.setter
+    def save(self, value):
+        self.__save = value

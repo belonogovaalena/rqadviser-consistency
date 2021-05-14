@@ -4,6 +4,7 @@ from rqadviser.view.main_view import MainView
 from rqadviser.controller.controller_csv import ControllerCsv
 from rqadviser.controller.controller_settings import ControllerSettings
 from rqadviser.controller.controller_cluster_check import ControllerClusterCheck
+from rqadviser.controller.controller_save import ControllerSave
 from rqadviser.model.model_main import ModelMain
 
 
@@ -16,12 +17,14 @@ class ControllerMain:
         self.__csv_controller = ControllerCsv()
         self.__setting_controller = ControllerSettings()
         self.__cluster_check_controller = ControllerClusterCheck()
+        self.__save_controller = ControllerSave()
 
         self.__view = MainView(self, self.__model)
 
         self.__model.result.inaccuracies_signal.signal.connect(self.__view.full_check_complete)
         self.__model.data_frame.df_signal.signal.connect(self.__view.df_changed_slot)
         self.__model.result.cluster_signal.signal.connect(self.__view.single_check_complete)
+        self.__model.save.saved_signal.signal.connect(self.__view.project_saved)
 
         self.__view.show()
 
@@ -91,3 +94,19 @@ class ControllerMain:
         else:
             nlp_model = None
         return nlp_model
+
+    def save_project_slot(self):
+        flag = True
+        self.__save_controller.set_project_path(
+            os.path.join(self.__model.settings.saves_path, self.__model.settings.project_name))
+        if self.__model.nlp.cosine is not None:
+            flag = flag and self.__save_controller.save_to_file(self.__model.nlp.cosine, "cosine")
+        if self.__model.nlp.tfidf is not None:
+            flag = flag and self.__save_controller.save_to_file(self.__model.nlp.tfidf, "tfidf")
+        if self.__model.nlp.doc2vec_dbow is not None:
+            flag = flag and self.__save_controller.save_to_file(self.__model.nlp.doc2vec_dbow, "doc2vec_dbow")
+        if self.__model.nlp.doc2vec_dm is not None:
+            flag = flag and self.__save_controller.save_to_file(self.__model.nlp.doc2vec_dm, "doc2vec_dm")
+        if self.__model.nlp.bert is not None:
+            flag = flag and self.__save_controller.save_to_file(self.__model.nlp.bert, "bert")
+        self.__model.save.save_state = flag

@@ -1,9 +1,10 @@
-from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QTableWidget, QTableView
+from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QMessageBox
 from rqadviser.view.menu_view import MenuViewHelper
 from rqadviser.model.model_main import ModelMain
 from rqadviser.signals.file_chosen import FileChosen
 from rqadviser.signals.check_single_requirement import CheckSingleRequirement
 from rqadviser.signals.check_full_requirements import CheckFullRequirements
+from rqadviser.signals.save_project import SaveProject
 from rqadviser.view.table_view import TableView
 from rqadviser.view.single_view import SingleCheckView
 from rqadviser.view.full_view import FullCheckView
@@ -21,6 +22,7 @@ class MainView(QMainWindow):
         self.signal_file_chosen = FileChosen()
         self.__check_single_requirement = CheckSingleRequirement()
         self.__check_full_requirements = CheckFullRequirements()
+        self.__save_project = SaveProject()
 
         self.__init_ui()
 
@@ -52,6 +54,7 @@ class MainView(QMainWindow):
         self.signal_file_chosen.signal.connect(self.__controller.file_chosen_slot)
         self.__check_single_requirement.signal.connect(self.__controller.check_single_requirement_slot)
         self.__check_full_requirements.signal.connect(self.__controller.check_full_requirements_slot)
+        self.__save_project.signal.connect(self.__controller.save_project_slot)
 
     def new_project_slot(self):
         self.hide()
@@ -91,4 +94,17 @@ class MainView(QMainWindow):
         print("TBD: Загрузка проекта")
 
     def save_project_slot(self):
-        print("TBD: Сохранение проекта")
+        self.__save_project.signal.emit()
+
+    def project_saved(self):
+        msg = QMessageBox(self)
+        if self.__model.save.save_state:
+            msg.setText("Проект сохранен")
+            msg.setIcon(QMessageBox.Information)
+        else:
+            msg.setText("Ошибка сохранения проекта")
+            msg.setIcon(QMessageBox.Critical)
+
+        msg.setWindowTitle("Сохранениt")
+        msg.setStandardButtons(QMessageBox.Ok)
+        msg.show()
