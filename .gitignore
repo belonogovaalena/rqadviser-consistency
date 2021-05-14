@@ -23,9 +23,11 @@ wheels/
 pip-wheel-metadata/
 share/python-wheels/
 *.egg-info/
+/*.egg-info/
 .installed.cfg
 *.egg
 MANIFEST
+.idea/*
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -127,3 +129,5 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+./out/*/*
