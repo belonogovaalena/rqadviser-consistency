@@ -18,6 +18,7 @@ class ResultView(QMainWindow):
         header = table.horizontalHeader()
         header.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeToContents)
         table.setSizeAdjustPolicy(QAbstractScrollArea.AdjustToContents)
+        table.resizeColumnsToContents()
         table.setEditTriggers(QAbstractItemView.NoEditTriggers)
         table.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
         table.setHorizontalScrollMode(QAbstractItemView.ScrollPerPixel)

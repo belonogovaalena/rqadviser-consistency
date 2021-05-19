@@ -82,6 +82,8 @@ class MainView(QMainWindow):
     def single_check_complete(self):
         result_view = ResultView(self.__model.result.requirements_cluster, self)
         result_view.show()
+        result_view.setWindowTitle("Частичная проверка")
+        result_view.setFixedSize(result_view.size())
 
     def full_check_chosen_slot(self):
         self.__full_check_view.show()
@@ -92,6 +94,8 @@ class MainView(QMainWindow):
     def full_check_complete(self):
         result_view = ResultView(self.__model.result.inaccuracies, self)
         result_view.show()
+        result_view.setWindowTitle("Полная проверка")
+        result_view.setFixedSize(result_view.size())
 
     def download_project_slot(self):
         self.hide()
