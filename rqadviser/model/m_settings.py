@@ -18,3 +18,6 @@ class ModelSettings:
     @project_name.setter
     def project_name(self, value):
         self._project_name = value
+
+    def __repr__(self):
+        return f"ModelSettings: [root_path: {self._root_path}, project_name: {self._project_name}]"

@@ -26,3 +26,7 @@ class ModelResult:
     def inaccuracies(self, value):
         self._inaccuracies = value
         self.inaccuracies_signal.signal.emit()
+
+    def __repr__(self):
+        return f"ModelResult: [requirements_cluster: {self._requirements_cluster}, " \
+               f"inaccuracies: {self._inaccuracies}]"

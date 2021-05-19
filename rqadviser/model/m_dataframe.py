@@ -23,3 +23,6 @@ class ModelDataFrame:
     @norm_req_df.setter
     def norm_req_df(self, value):
         self._norm_req_df = value
+
+    def __repr__(self):
+        return f"ModelDataFrame: [req_df: {self._req_df}, norm_req_df: {self._norm_req_df}]"

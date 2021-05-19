@@ -14,3 +14,6 @@ class ModelSave:
     def save_state(self, value):
         self._save_state = value
         self.saved_signal.signal.emit()
+
+    def __repr__(self):
+        return f"ModelSave: [save_state: {self._save_state}]"

@@ -57,7 +57,7 @@ class ControllerMain:
     def check_single_requirement_slot(self, cluster_mode, nlp_mode, requirement_id):
         nlp_model = self._init_nlp_model(nlp_mode)
         if nlp_model:
-            cluster_model = self._ctrl_init_model.init_clustering(cluster_mode, self._model.data_frame.req_df, nlp_model.conv_df)
+            cluster_model = self._ctrl_init_model.init_clustering(cluster_mode, self._model.data_frame.req_df, nlp_model.vector_df)
             if cluster_model:
                 cluster = cluster_model.get_nearest(requirement_id)
                 self._model.result.requirements_cluster = cluster
@@ -70,7 +70,7 @@ class ControllerMain:
         nlp_model = self._init_nlp_model(nlp_mode)
         if nlp_model:
             cluster_model = self._ctrl_init_model.init_clustering(cluster_mode, self._model.data_frame.req_df,
-                                                                  nlp_model.conv_df)
+                                                                  nlp_model.vector_df)
             if cluster_model:
                 inaccuracies = cluster_model.get_inaccuracies(measure)
                 self._model.result.inaccuracies = inaccuracies

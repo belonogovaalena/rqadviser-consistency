@@ -52,3 +52,9 @@ class ModelMain:
     @save.setter
     def save(self, value):
         self._save = value
+
+    def __repr__(self):
+        return f"ModelMain: [settings: {repr(self._settings)}, data_frame: {repr(self._data_frame)}, " \
+               f"nlp: {repr(self._nlp)}, result: {repr(self._result)}, " \
+               f"save: {repr(self._save)}]"
+

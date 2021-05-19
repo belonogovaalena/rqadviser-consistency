@@ -45,3 +45,8 @@ class ModelNlp:
     @bert.setter
     def bert(self, value):
         self._bert = value
+
+    def __repr__(self):
+        return f"ModelNlp: [cosine: {self._cosine}, tfidf: {self._tfidf}, " \
+               f"doc2vec_dm: {self._doc2vec_dm}, doc2vec_dbow: {self._doc2vec_dbow}, " \
+               f"bert: {self._bert}]"
