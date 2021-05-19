@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QMessageBox
 from rqadviser.view.menu_view import MenuViewHelper
-from rqadviser.model.model_main import ModelMain
+from rqadviser.model.m_main import ModelMain
 from rqadviser.signals.file_chosen import FileChosen
 from rqadviser.signals.check_single_requirement import CheckSingleRequirement
 from rqadviser.signals.check_full_requirements import CheckFullRequirements
@@ -68,7 +68,7 @@ class MainView(QMainWindow):
         self.signal_file_chosen.signal.emit(file_name[0])
 
     def df_changed_slot(self):
-        df = self.__model.data_frame.df
+        df = self.__model.data_frame.req_df
         self.__table_view = TableView(self, df)
         self.__table_view.create_table()
         self.__table_view.create_buttons()

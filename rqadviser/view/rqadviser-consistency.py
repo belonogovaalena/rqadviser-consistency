@@ -3,7 +3,7 @@ import sys
 from PyQt5.QtWidgets import QApplication
 
 
-from rqadviser.model.model_main import ModelMain
+from rqadviser.model.m_main import ModelMain
 from rqadviser.controller.ctrl_main import ControllerMain
 
 if __name__ == '__main__':
