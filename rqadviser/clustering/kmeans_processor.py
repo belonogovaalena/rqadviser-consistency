@@ -1,9 +1,9 @@
 from sklearn.cluster import KMeans
-from rqadviser.clustering.clustering_abstract import ClusteringAbstract
+from rqadviser.clustering.clustering_parent import ClusteringParent
 
 
-class KmeansProcessor(ClusteringAbstract):
-    def __init__(self, prepared_df, conv_df):
-        number_of_cluster = int(prepared_df.shape[0] / 3.6)
-        kmeans = KMeans(number_of_cluster, random_state=100)
-        super().__init__(prepared_df, conv_df, kmeans)
+class KmeansProcessor(ClusteringParent):
+    def __init__(self, requirement_df, vector_df):
+        n_clusters = int(requirement_df.shape[0] / 3.6)
+        kmeans = KMeans(n_clusters, random_state=100)
+        super().__init__(requirement_df, vector_df, kmeans)

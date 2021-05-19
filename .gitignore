@@ -132,4 +132,4 @@ dmypy.json
 
 ./out/*/*
 
-./cfg/rqadviser-consistency.ini
+cfg/rqadviser-consistency.ini

@@ -1,9 +1,9 @@
 from sklearn.mixture import GaussianMixture
-from rqadviser.clustering.clustering_abstract import ClusteringAbstract
+from rqadviser.clustering.clustering_parent import ClusteringParent
 
 
-class EMProcessor(ClusteringAbstract):
-    def __init__(self, prepared_df, conv_df):
-        number_of_cluster = int(prepared_df.shape[0] / 3.6)
-        gmm = GaussianMixture(number_of_cluster, random_state=100)
-        super().__init__(prepared_df, conv_df, gmm)
+class EMProcessor(ClusteringParent):
+    def __init__(self, requirement_df, vector_df):
+        n_clusters = int(requirement_df.shape[0] / 3.6)
+        mixture = GaussianMixture(n_clusters, random_state=100)
+        super().__init__(requirement_df, vector_df, mixture)
