@@ -5,14 +5,14 @@ from PyQt5.QtWidgets import QTableView, QAbstractScrollArea, QAbstractItemView, 
 from rqadviser.model.m_table import TableModel
 
 
-class ResultView(QMainWindow):
+class ViewResult(QMainWindow):
     def __init__(self, df, parent=None):
         super(QMainWindow, self).__init__(parent)
-        self.__df = df
-        self.__create_table()
+        self._df = df
+        self._create_table()
 
-    def __create_table(self):
-        model = TableModel(self.__df)
+    def _create_table(self):
+        model = TableModel(self._df)
         table = QTableView()
         table.setModel(model)
         header = table.horizontalHeader()
@@ -23,6 +23,5 @@ class ResultView(QMainWindow):
         table.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
         table.setHorizontalScrollMode(QAbstractItemView.ScrollPerPixel)
         table.setSelectionBehavior(QAbstractItemView.SelectRows)
-        # table.setSelectionMode(QAbstractItemView.SingleSelection)
         self.setCentralWidget(table)
 

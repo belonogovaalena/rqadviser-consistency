@@ -1,6 +1,6 @@
 import os
 
-from rqadviser.view.main_view import MainView
+from rqadviser.view.v_main import MainView
 from rqadviser.controller.ctrl_process_csv import ControllerProcessCsv
 from rqadviser.controller.ctrl_settings import ControllerSettings
 from rqadviser.controller.ctrl_init_model import ControllerInitModel
@@ -55,29 +55,27 @@ class ControllerMain:
             print("Ошибка обработки данных CSV")
 
     def check_single_requirement_slot(self, cluster_mode, nlp_mode, requirement_id):
-        nlp_model = self._init_nlp_model(nlp_mode)
-        if nlp_model:
+        try:
+            nlp_model = self._init_nlp_model(nlp_mode)
+            assert nlp_model
             cluster_model = self._ctrl_init_model.init_clustering(cluster_mode, self._model.data_frame.req_df, nlp_model.vector_df)
-            if cluster_model:
-                cluster = cluster_model.get_nearest(requirement_id)
-                self._model.result.requirements_cluster = cluster
-            else:
-                print("Ошибка инициализации кластеризационной модели")
-        else:
-            print("Ошибки иницализаци NLP модели")
+            assert cluster_model
+            cluster = cluster_model.get_nearest(requirement_id)
+            self._model.result.requirements_cluster = cluster
+        except AssertionError as e:
+            print(e)
 
     def check_full_requirements_slot(self, cluster_mode, nlp_mode, measure):
-        nlp_model = self._init_nlp_model(nlp_mode)
-        if nlp_model:
+        try:
+            nlp_model = self._init_nlp_model(nlp_mode)
+            assert nlp_model
             cluster_model = self._ctrl_init_model.init_clustering(cluster_mode, self._model.data_frame.req_df,
-                                                                  nlp_model.vector_df)
-            if cluster_model:
-                inaccuracies = cluster_model.get_inaccuracies(measure)
-                self._model.result.inaccuracies = inaccuracies
-            else:
-                print("Ошибка инициализации кластеризационной модели")
-        else:
-            print("Ошибки иницализаци NLP модели")
+                                                                      nlp_model.vector_df)
+            assert cluster_model
+            inaccuracies = cluster_model.get_inaccuracies(measure)
+            self._model.result.inaccuracies = inaccuracies
+        except AssertionError as e:
+            print(e)
 
     def _init_nlp_model(self, nlp_mode):
         if nlp_mode == 0:

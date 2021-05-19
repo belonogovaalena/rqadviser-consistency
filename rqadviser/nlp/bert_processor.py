@@ -11,4 +11,4 @@ class BertProcessor(NlpParent):
     def prepare(self):
         sentences = self._requirement_df["Requirement"].to_list()
         self._model = SentenceTransformer('paraphrase-xlm-r-multilingual-v1')
-        self._vector_df = pd.Pandas(self._model.encode(sentences, show_progress_bar=True))
+        self._vector_df = pd.DataFrame(self._model.encode(sentences, show_progress_bar=True))
