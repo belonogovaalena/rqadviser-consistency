@@ -31,6 +31,7 @@ class ControllerMain:
         self.__view.show()
 
     def file_chosen_slot(self, file_name):
+        self.__model.settings.saves_path = self.__setting_controller.init_saves_path()
         self.__create_project(file_name, self.__model.settings.saves_path)
         self.__parse_data_frame()
 
