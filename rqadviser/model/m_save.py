@@ -1,4 +1,4 @@
-from rqadviser.signals.saved_project import SavedProject
+from rqadviser.signals.signals import SavedProject
 
 
 class ModelSave:

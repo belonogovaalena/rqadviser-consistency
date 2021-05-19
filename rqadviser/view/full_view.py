@@ -2,7 +2,7 @@ from PyQt5.QtCore import QRegExp
 from PyQt5.QtGui import QRegExpValidator
 from PyQt5.QtWidgets import QMainWindow, QApplication, QGridLayout, QWidget, QLabel, QButtonGroup, QRadioButton, \
     QPushButton, QLineEdit
-from rqadviser.signals.full_mode_chosen import FullModeChosen
+from rqadviser.signals.signals import FullModeChosen
 
 
 class FullCheckView(QMainWindow):

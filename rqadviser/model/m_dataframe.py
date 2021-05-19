@@ -1,4 +1,4 @@
-from rqadviser.signals.df_parsed import DataFrameParsed
+from rqadviser.signals.signals import DataFrameParsed
 
 
 class ModelDataFrame:

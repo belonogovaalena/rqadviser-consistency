@@ -1,11 +1,11 @@
 from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QMessageBox
 from rqadviser.view.menu_view import MenuViewHelper
 from rqadviser.model.m_main import ModelMain
-from rqadviser.signals.file_chosen import FileChosen
-from rqadviser.signals.check_single_requirement import CheckSingleRequirement
-from rqadviser.signals.check_full_requirements import CheckFullRequirements
-from rqadviser.signals.save_project import SaveProject
-from rqadviser.signals.download_project import DownloadProject
+from rqadviser.signals.signals import FileChosen
+from rqadviser.signals.signals import CheckSingleRequirement
+from rqadviser.signals.signals import CheckFullRequirements
+from rqadviser.signals.signals import SaveProject
+from rqadviser.signals.signals import DownloadProject
 from rqadviser.view.table_view import TableView
 from rqadviser.view.single_view import SingleCheckView
 from rqadviser.view.full_view import FullCheckView

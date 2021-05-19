@@ -1,5 +1,5 @@
-from rqadviser.signals.cluster_found import ClusterFound
-from rqadviser.signals.inaccuracies_found import InaccuraciesFound
+from rqadviser.signals.signals import ClusterFound
+from rqadviser.signals.signals import InaccuraciesFound
 
 
 class ModelResult:

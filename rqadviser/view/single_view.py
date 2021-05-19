@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QMainWindow, QApplication, QGridLayout, QWidget, QLabel, QButtonGroup, QRadioButton, \
     QPushButton
-from rqadviser.signals.single_mode_chosen import SingleModeChosen
+from rqadviser.signals.signals import SingleModeChosen
 
 
 class SingleCheckView(QMainWindow):
