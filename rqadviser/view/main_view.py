@@ -53,7 +53,7 @@ class MainView(QMainWindow):
         self.menuBar().addMenu(menu_helper.project_menu)
 
     def __connect(self):
-        self.signal_file_chosen.signal.connect(self.__controller.file_chosen_slot)
+        self.signal_file_chosen.signal.connect(self.__controller.req_file_chosen_slot)
         self.__check_single_requirement.signal.connect(self.__controller.check_single_requirement_slot)
         self.__check_full_requirements.signal.connect(self.__controller.check_full_requirements_slot)
         self.__save_project.signal.connect(self.__controller.save_project_slot)
@@ -63,7 +63,7 @@ class MainView(QMainWindow):
         self.hide()
         # TODO проверку, что файл выбран
         dialog = QFileDialog()
-        file_name, _ = dialog.getOpenFileNames(self, 'Выберите файл .csv:', filter="CSV Files (*.csv)")
+        file_name, _ = dialog.getOpenFileNames(self, 'Выберите файл .csv:', filter="CSV Files (*.csv)", options=QFileDialog.DontUseNativeDialog)
         self.show()
         self.signal_file_chosen.signal.emit(file_name[0])
 
@@ -100,7 +100,7 @@ class MainView(QMainWindow):
     def download_project_slot(self):
         self.hide()
         dialog = QFileDialog()
-        dir_name = dialog.getExistingDirectory(self, 'Выберите директорию проверки')
+        dir_name = dialog.getExistingDirectory(None, 'Выберите директорию проверки', options=QFileDialog.DontUseNativeDialog)
         self.show()
         self.__download_project.signal.emit(dir_name)
 

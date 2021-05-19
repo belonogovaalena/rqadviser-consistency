@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QApplication
 
 
 from rqadviser.model.model_main import ModelMain
-from rqadviser.controller.controller_main import ControllerMain
+from rqadviser.controller.ctrl_main import ControllerMain
 
 if __name__ == '__main__':
     os.environ["QT_LOGGING_RULES"] = "*.debug=false"

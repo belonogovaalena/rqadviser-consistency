@@ -18,5 +18,6 @@ class ControllerSave:
             with open(file_path, 'wb') as output:
                 pickle.dump(model, output, pickle.HIGHEST_PROTOCOL)
             return True
-        except Exception as e:
+        except pickle.PickleError as e:
+            print(e)
             return False

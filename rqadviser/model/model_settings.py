@@ -8,6 +8,7 @@ class ModelSettings:
         return self.__saves_path
 
     @saves_path.setter
+    #FIIIIIIIIIIIIIIIIIIIIIIIIX
     def saves_path(self, value):
         self.__saves_path = value
 

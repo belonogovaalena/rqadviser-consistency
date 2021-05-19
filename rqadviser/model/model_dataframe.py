@@ -12,6 +12,7 @@ class ModelDataFrame:
         return self.__df
 
     @df.setter
+    # АШШШШШШШШШШШШШШШФИКС
     def df(self, value):
         self.__df = value
         self.df_signal.signal.emit()

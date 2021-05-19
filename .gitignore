@@ -130,6 +130,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-./out/*/*
-
 cfg/rqadviser-consistency.ini
+/out/

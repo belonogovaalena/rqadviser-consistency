@@ -21,8 +21,11 @@ class ControllerDownload:
             return None
         else:
             path = self.__get_pickle_path(model)
-            result = None
-            with open(path, 'rb') as input:
-                result = pickle.load(input)
+            try:
+                with open(path, 'rb') as f:
+                    result = pickle.load(f)
+            except pickle.PickleError as e:
+                print(e)
+                return None
             return result
 
