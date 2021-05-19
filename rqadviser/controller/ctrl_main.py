@@ -1,12 +1,12 @@
 import os
 
-from rqadviser.view.v_main import MainView
-from rqadviser.controller.ctrl_process_csv import ControllerProcessCsv
-from rqadviser.controller.ctrl_settings import ControllerSettings
-from rqadviser.controller.ctrl_init_model import ControllerInitModel
-from rqadviser.controller.ctrl_save import ControllerSave
-from rqadviser.model.m_main import ModelMain
 from rqadviser.controller.ctrl_download import ControllerDownload
+from rqadviser.controller.ctrl_init_model import ControllerInitModel
+from rqadviser.controller.ctrl_process_csv import ControllerProcessCsv
+from rqadviser.controller.ctrl_save import ControllerSave
+from rqadviser.controller.ctrl_settings import ControllerSettings
+from rqadviser.model.m_main import ModelMain
+from rqadviser.view.v_main import MainView
 
 
 class ControllerMain:

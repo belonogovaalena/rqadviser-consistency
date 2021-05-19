@@ -1,12 +1,12 @@
-from rqadviser.nlp.cosine_processor import CosineProcessor
-from rqadviser.nlp.tfidf_processor import TfidfProcessor
-from rqadviser.nlp.doc2vecdm_processor import Doc2VecDmProcessor
-from rqadviser.nlp.doc2vecdbow_processor import Doc2VecDbowProcessor
-from rqadviser.nlp.bert_processor import BertProcessor
-from rqadviser.clustering.kmeans_processor import KmeansProcessor
-from rqadviser.clustering.em_processor import EMProcessor
 from rqadviser.clustering.agglomerative_processor import AgglomerativeProcessor
 from rqadviser.clustering.dbscan_processor import DbscanProcessor
+from rqadviser.clustering.em_processor import EMProcessor
+from rqadviser.clustering.kmeans_processor import KmeansProcessor
+from rqadviser.nlp.bert_processor import BertProcessor
+from rqadviser.nlp.cosine_processor import CosineProcessor
+from rqadviser.nlp.doc2vecdbow_processor import Doc2VecDbowProcessor
+from rqadviser.nlp.doc2vecdm_processor import Doc2VecDmProcessor
+from rqadviser.nlp.tfidf_processor import TfidfProcessor
 
 
 class ControllerInitModel:
