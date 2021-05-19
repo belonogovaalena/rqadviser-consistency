@@ -1,5 +1,7 @@
-import pandas as pd
 import itertools
+
+import pandas as pd
+
 import scipy.spatial
 
 

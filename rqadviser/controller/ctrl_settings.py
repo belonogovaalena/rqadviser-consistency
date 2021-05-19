@@ -1,10 +1,11 @@
+import getpass
+import logging
 import os
 import platform
-import getpass
-from pathlib import Path
-from datetime import datetime
-from shutil import copyfile
 from configparser import ConfigParser
+from datetime import datetime
+from pathlib import Path
+from shutil import copyfile
 
 
 class ControllerSettings:
@@ -20,7 +21,7 @@ class ControllerSettings:
             # копирование CSV в необходимый проект
             copyfile(csv_file_path, os.path.join(root_path, project_name, 'data.csv'))
         except FileNotFoundError as e:
-            print(e)
+            logger.error(e)
             return ""
         return project_name
 
@@ -41,3 +42,6 @@ class ControllerSettings:
             elif platform.system() == "Windows":
                 return "C:\\Users\\{0}\\rqadviser".format(getpass.getuser())
         return root_path
+
+
+logger = logging.getLogger("rqadviser")

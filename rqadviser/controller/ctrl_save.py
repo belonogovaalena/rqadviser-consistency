@@ -1,5 +1,6 @@
+import logging
 import os
-import pickle
+import pickle  # noqa: S403
 
 
 class ControllerSave:
@@ -19,5 +20,8 @@ class ControllerSave:
                 pickle.dump(model, output, pickle.HIGHEST_PROTOCOL)
             return True
         except pickle.PickleError as e:
-            print(e)
+            logger.error(e)
             return False
+
+
+logger = logging.getLogger("rqadviser")

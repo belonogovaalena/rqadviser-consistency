@@ -1,8 +1,8 @@
-from rqadviser.model.m_settings import ModelSettings
 from rqadviser.model.m_dataframe import ModelDataFrame
 from rqadviser.model.m_nlp import ModelNlp
 from rqadviser.model.m_result import ModelResult
 from rqadviser.model.m_save import ModelSave
+from rqadviser.model.m_settings import ModelSettings
 
 
 class ModelMain:
@@ -57,4 +57,3 @@ class ModelMain:
         return f"ModelMain: [settings: {repr(self._settings)}, data_frame: {repr(self._data_frame)}, " \
                f"nlp: {repr(self._nlp)}, result: {repr(self._result)}, " \
                f"save: {repr(self._save)}]"
-

@@ -1,15 +1,13 @@
-from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QMessageBox
-from rqadviser.view.v_menu import ViewMenu
+from PyQt5.QtWidgets import QApplication, QFileDialog, QMainWindow, QMessageBox
+
 from rqadviser.model.m_main import ModelMain
-from rqadviser.signals.signals import FileChosen
-from rqadviser.signals.signals import CheckSingleRequirement
-from rqadviser.signals.signals import CheckFullRequirements
-from rqadviser.signals.signals import SaveProject
-from rqadviser.signals.signals import DownloadProject
-from rqadviser.view.v_table import ViewTable
-from rqadviser.view.v_single_check import ViewSingleCheck
+from rqadviser.signals.signals import CheckFullRequirements, CheckSingleRequirement, DownloadProject, FileChosen, \
+    SaveProject
 from rqadviser.view.v_full_check import FullCheckView
+from rqadviser.view.v_menu import ViewMenu
 from rqadviser.view.v_result import ViewResult
+from rqadviser.view.v_single_check import ViewSingleCheck
+from rqadviser.view.v_table import ViewTable
 
 
 class MainView(QMainWindow):
@@ -62,7 +60,8 @@ class MainView(QMainWindow):
     def new_project_slot(self):
         self.hide()
         dialog = QFileDialog()
-        file_path, _ = dialog.getOpenFileNames(self, 'Выберите файл .csv:', filter="CSV Files (*.csv)", options=QFileDialog.DontUseNativeDialog)
+        file_path, _ = dialog.getOpenFileNames(self, 'Выберите файл .csv:', filter="CSV Files (*.csv)",
+                                               options=QFileDialog.DontUseNativeDialog)
         self.show()
         if file_path:
             self.s_file_chosen.signal.emit(file_path[0])
@@ -100,7 +99,8 @@ class MainView(QMainWindow):
     def download_project_slot(self):
         self.hide()
         dialog = QFileDialog()
-        dir_name = dialog.getExistingDirectory(None, 'Выберите директорию проверки', options=QFileDialog.DontUseNativeDialog)
+        dir_name = dialog.getExistingDirectory(None, 'Выберите директорию проверки',
+                                               options=QFileDialog.DontUseNativeDialog)
         self.show()
         if dir_name:
             self._s_download_project.signal.emit(dir_name)

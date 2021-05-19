@@ -11,13 +11,13 @@ class TableModel(QtGui.QStandardItemModel):
             self.appendColumn(data_col)
         return
 
-    def rowCount(self, parent=None):
+    def rowCount(self, parent=None):  # noqa: N802
         return len(self._data.values)
 
-    def columnCount(self, parent=None):
+    def columnCount(self, parent=None):  # noqa: N802
         return self._data.columns.size
 
-    def headerData(self, x, orientation, role):
+    def headerData(self, x, orientation, role):  # noqa: N802
         if orientation == Qt.Horizontal and role == Qt.DisplayRole:
             return self._data.columns[x]
         if orientation == Qt.Vertical and role == Qt.DisplayRole:

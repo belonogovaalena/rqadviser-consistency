@@ -1,5 +1,6 @@
-from sklearn.cluster import DBSCAN
 from rqadviser.clustering.clustering_parent import ClusteringParent
+
+from sklearn.cluster import DBSCAN
 
 
 class DbscanProcessor(ClusteringParent):

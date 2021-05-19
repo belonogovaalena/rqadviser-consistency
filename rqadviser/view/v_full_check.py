@@ -1,7 +1,8 @@
 from PyQt5.QtCore import QRegExp
 from PyQt5.QtGui import QRegExpValidator
-from PyQt5.QtWidgets import QMainWindow, QApplication, QGridLayout, QWidget, QLabel, QButtonGroup, QRadioButton, \
-    QPushButton, QLineEdit
+from PyQt5.QtWidgets import QApplication, QButtonGroup, QGridLayout, QLabel, QLineEdit, QMainWindow, QPushButton, \
+    QRadioButton, QWidget
+
 from rqadviser.signals.signals import FullModeChosen
 
 
@@ -104,6 +105,6 @@ class FullCheckView(QMainWindow):
         grid_layout.addWidget(ok_but, 8, 0, 1, 0)
 
     def on_button_ok_clicked(self):
-        self._full_mode_chosen.signal.emit(self._buttons_clustering.checkedId(), self._buttons_nlp.checkedId(),
-                                            float(self._line_dimension.text()))
+        self._full_mode_chosen.signal.emit(self._buttons_clustering.checkedId(), self._buttons_nlp.checkedId(), float(
+            self._line_dimension.text()))
         self.hide()

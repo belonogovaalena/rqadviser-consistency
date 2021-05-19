@@ -1,4 +1,5 @@
 import pandas as pd
+
 from rqadviser.nlp.data_processor import DataProcessor
 
 

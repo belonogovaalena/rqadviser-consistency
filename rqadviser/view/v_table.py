@@ -1,6 +1,7 @@
-from PyQt5 import QtGui, QtWidgets
+from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QTableView, QWidget, QGridLayout, QAbstractScrollArea, QAbstractItemView, QPushButton
+from PyQt5.QtWidgets import QAbstractItemView, QAbstractScrollArea, QGridLayout, QPushButton, QTableView, QWidget
+
 from rqadviser.model.m_table import TableModel
 
 

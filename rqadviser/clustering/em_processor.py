@@ -1,5 +1,6 @@
-from sklearn.mixture import GaussianMixture
 from rqadviser.clustering.clustering_parent import ClusteringParent
+
+from sklearn.mixture import GaussianMixture
 
 
 class EMProcessor(ClusteringParent):

@@ -1,5 +1,6 @@
-from sklearn.cluster import AgglomerativeClustering
 from rqadviser.clustering.clustering_parent import ClusteringParent
+
+from sklearn.cluster import AgglomerativeClustering
 
 
 class AgglomerativeProcessor(ClusteringParent):

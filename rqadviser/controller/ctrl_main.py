@@ -1,3 +1,4 @@
+import logging
 import os
 
 from rqadviser.controller.ctrl_download import ControllerDownload
@@ -37,7 +38,7 @@ class ControllerMain:
             self._create_project(csv_file_path, self._model.settings.root_path)
             self._parse_data_frame()
         else:
-            print("Ошибка инициализации пути проекта")
+            logger.error("Ошибка инициализации пути проекта")
 
     def _create_project(self, csv_file_path, root_path):
         project_name = self._ctrl_settings.create_project(csv_file_path, root_path)
@@ -52,30 +53,31 @@ class ControllerMain:
             self._model.data_frame.req_df = req_df
             self._model.data_frame.norm_req_df = norm_req_df
         else:
-            print("Ошибка обработки данных CSV")
+            logger.error("Ошибка обработки данных CSV")
 
     def check_single_requirement_slot(self, cluster_mode, nlp_mode, requirement_id):
         try:
             nlp_model = self._init_nlp_model(nlp_mode)
             assert nlp_model
-            cluster_model = self._ctrl_init_model.init_clustering(cluster_mode, self._model.data_frame.req_df, nlp_model.vector_df)
+            cluster_model = self._ctrl_init_model.init_clustering(cluster_mode, self._model.data_frame.req_df,
+                                                                  nlp_model.vector_df)
             assert cluster_model
             cluster = cluster_model.get_nearest(requirement_id)
             self._model.result.requirements_cluster = cluster
         except AssertionError as e:
-            print(e)
+            logger.error(e)
 
     def check_full_requirements_slot(self, cluster_mode, nlp_mode, measure):
         try:
             nlp_model = self._init_nlp_model(nlp_mode)
             assert nlp_model
-            cluster_model = self._ctrl_init_model.init_clustering(cluster_mode, self._model.data_frame.req_df,
-                                                                      nlp_model.vector_df)
+            cluster_model = self._ctrl_init_model.init_clustering(cluster_mode, self._model.data_frame.req_df, nlp_model
+                                                                  .vector_df)
             assert cluster_model
             inaccuracies = cluster_model.get_inaccuracies(measure)
             self._model.result.inaccuracies = inaccuracies
         except AssertionError as e:
-            print(e)
+            logger.error(e)
 
     def _init_nlp_model(self, nlp_mode):
         if nlp_mode == 0:
@@ -144,4 +146,7 @@ class ControllerMain:
             self._model.nlp.doc2vec_dbow = self._ctrl_download.download_model_if_exists("doc2vec_dbow")
             self._model.nlp.bert = self._ctrl_download.download_model_if_exists("bert")
         else:
-            print("Ошибка определения пути проекта")
+            logger.error("Ошибка определения пути проекта")
+
+
+logger = logging.getLogger("rqadviser")

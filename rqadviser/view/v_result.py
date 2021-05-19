@@ -1,6 +1,6 @@
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QTableView, QAbstractScrollArea, QAbstractItemView, QMainWindow
+from PyQt5.QtWidgets import QAbstractItemView, QAbstractScrollArea, QMainWindow, QTableView
 
 from rqadviser.model.m_table import TableModel
 
@@ -24,4 +24,3 @@ class ViewResult(QMainWindow):
         table.setHorizontalScrollMode(QAbstractItemView.ScrollPerPixel)
         table.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.setCentralWidget(table)
-

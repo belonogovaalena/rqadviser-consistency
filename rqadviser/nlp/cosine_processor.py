@@ -1,4 +1,5 @@
 import pandas as pd
+
 from rqadviser.nlp.nlp_parent import NlpParent
 
 
@@ -22,7 +23,7 @@ class CosineProcessor(NlpParent):
         self._vector_df = pd.DataFrame.from_records(arrays, columns=self._word_cloud)
 
     def _get_row(self, row: pd.DataFrame):
-        word_vector = list()
+        word_vector = []
         value = 0
         for word in self._word_cloud:
             if word in row:

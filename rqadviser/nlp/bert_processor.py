@@ -1,6 +1,8 @@
-from sentence_transformers import SentenceTransformer
-from rqadviser.nlp.nlp_parent import NlpParent
 import pandas as pd
+
+from rqadviser.nlp.nlp_parent import NlpParent
+
+from sentence_transformers import SentenceTransformer
 
 
 class BertProcessor(NlpParent):

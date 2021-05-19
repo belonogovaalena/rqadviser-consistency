@@ -1,8 +1,11 @@
-import pandas as pd
 import string
-import pymorphy2
+
 import nltk
 from nltk.corpus import stopwords
+
+import pandas as pd
+
+import pymorphy2
 
 nltk.download('stopwords')
 
@@ -38,9 +41,8 @@ class DataProcessor:
         self._df["Requirement"] = self._df["Requirement"].str.lower()
         self._df["Requirement"] = self._df["Requirement"].str.split(" ", expand=False)
         stop_word = stopwords.words('russian')
-        self._df["Requirement"] = self._df.apply(lambda row: [self._morph.parse(word)[0].normal_form for word in
-                                                                row["Requirement"] if word not in stop_word and
-                                                                word != "" and not str(word).isdigit()], axis=1)
+        self._df["Requirement"] = self._df.apply(lambda row: [self._morph.parse(word)[0].normal_form for word in row[
+            "Requirement"] if word not in stop_word and word != "" and not str(word).isdigit()], axis=1)
 
     @property
     def df(self):

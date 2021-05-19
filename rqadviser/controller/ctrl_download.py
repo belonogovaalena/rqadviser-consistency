@@ -1,5 +1,6 @@
+import logging
 import os
-import pickle
+import pickle  # noqa: S403
 
 
 class ControllerDownload:
@@ -23,9 +24,11 @@ class ControllerDownload:
             path = self.__get_pickle_path(model)
             try:
                 with open(path, 'rb') as f:
-                    result = pickle.load(f)
+                    result = pickle.load(f)  # noqa: S301
             except pickle.PickleError as e:
-                print(e)
+                logger.error(e)
                 return None
             return result
 
+
+logger = logging.getLogger("rqadviser")

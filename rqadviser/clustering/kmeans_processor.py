@@ -1,5 +1,6 @@
-from sklearn.cluster import KMeans
 from rqadviser.clustering.clustering_parent import ClusteringParent
+
+from sklearn.cluster import KMeans
 
 
 class KmeansProcessor(ClusteringParent):
