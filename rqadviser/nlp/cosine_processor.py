@@ -1,6 +1,8 @@
 """
 Модуль преобразования предложений в числовые вектора методом простых косинусных растояний
 """
+from typing import Any, Set
+
 import pandas as pd
 
 from rqadviser.nlp.nlp_parent import NlpParent
@@ -10,6 +12,8 @@ class CosineProcessor(NlpParent):
     """
     Модуль преобразования предложений в числовые вектора методом простых косинусных растояний
     """
+    _word_cloud: Set[Any]
+
     def __init__(self, requirement_df: pd.DataFrame):
         super().__init__(requirement_df)
         self._word_cloud = set()

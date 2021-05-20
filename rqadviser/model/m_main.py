@@ -83,7 +83,7 @@ class ModelMain:
         return self._save
 
     @save.setter
-    def save(self, value) -> ModelSave:
+    def save(self, value: ModelSave):
         """
         :param value: Модель состояния сохранения
         """

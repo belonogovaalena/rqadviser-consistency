@@ -3,7 +3,9 @@
 """
 import logging
 import os
+from typing import Any
 
+from rqadviser.clustering.clustering_parent import ClusteringParent
 from rqadviser.controller.ctrl_download import ControllerDownload
 from rqadviser.controller.ctrl_init_model import ControllerInitModel
 from rqadviser.controller.ctrl_process_csv import ControllerProcessCsv
@@ -81,13 +83,15 @@ class ControllerMain:
         """
         try:
             nlp_model = self._init_nlp_model(nlp_mode)
-            assert nlp_model
+            if not isinstance(nlp_model, NlpParent):
+                raise TypeError("Ошибка инициализации NLP модели")
             cluster_model = self._ctrl_init_model.init_clustering(cluster_mode, self._model.data_frame.req_df,
                                                                   nlp_model.vector_df)
-            assert cluster_model
+            if not isinstance(cluster_model, ClusteringParent):
+                raise TypeError("Ошибка инициализации модели кластеризации")
             cluster = cluster_model.get_nearest(requirement_id)
             self._model.result.requirements_cluster = cluster
-        except AssertionError as ex:
+        except TypeError as ex:
             logger.error(ex)
 
     def check_full_requirements_slot(self, cluster_mode: int, nlp_mode: int, measure: float):
@@ -119,7 +123,7 @@ class ControllerMain:
             model = self._get_model(nlp_mode)
         return model
 
-    def _set_up_model(self, nlp_mode: int) -> NlpParent:
+    def _set_up_model(self, nlp_mode: int) -> Any[NlpParent, None]:
         """
         Инициализация модели преобразования предложений в вектора в зависимости от режима
         :param nlp_mode: Выбранный режим
@@ -150,12 +154,13 @@ class ControllerMain:
             nlp_model = None
         return nlp_model
 
-    def _get_model(self, nlp_mode: int) -> NlpParent:
+    def _get_model(self, nlp_mode: int) -> Any[NlpParent, None]:
         """
         Получение уже инициализированной модели преобразования предложений в вектора в зависимости от режима
         :param nlp_mode: Выбранный режим
         :return: Модель преобразования предложений в вектора
         """
+        nlp_model: Any[NlpParent, None] = None
         if nlp_mode == 0:
             nlp_model = self._model.nlp.cosine
         elif nlp_mode == 1:
@@ -166,8 +171,6 @@ class ControllerMain:
             nlp_model = self._model.nlp.doc2vec_dbow
         elif nlp_mode == 4:
             nlp_model = self._model.nlp.bert
-        else:
-            nlp_model = None
         return nlp_model
 
     def save_project_slot(self):
