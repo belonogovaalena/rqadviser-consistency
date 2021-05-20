@@ -1,3 +1,6 @@
+"""
+Мастер-контроллер
+"""
 import logging
 import os
 
@@ -7,13 +10,15 @@ from rqadviser.controller.ctrl_process_csv import ControllerProcessCsv
 from rqadviser.controller.ctrl_save import ControllerSave
 from rqadviser.controller.ctrl_settings import ControllerSettings
 from rqadviser.model.m_main import ModelMain
+from rqadviser.nlp.nlp_parent import NlpParent
 from rqadviser.view.v_main import MainView
 
 
 class ControllerMain:
-    _model: ModelMain
-
-    def __init__(self, model):
+    """
+    Мастер-контроллер
+    """
+    def __init__(self, model: ModelMain):
         self._model = model
 
         self._view = MainView(self, self._model)
@@ -31,7 +36,11 @@ class ControllerMain:
 
         self._view.show()
 
-    def req_file_chosen_slot(self, csv_file_path):
+    def req_file_chosen_slot(self, csv_file_path: str):
+        """
+        Слот для обработки выбранного пользователем CSV-файла со спецификацией
+        :param csv_file_path: Путь к выбранному пользователю файлу .csv спецификации
+        """
         root_path = self._ctrl_settings.init_root_path()
         if root_path:
             self._model.settings.root_path = root_path
@@ -40,12 +49,20 @@ class ControllerMain:
         else:
             logger.error("Ошибка инициализации пути проекта")
 
-    def _create_project(self, csv_file_path, root_path):
+    def _create_project(self, csv_file_path: str, root_path: str):
+        """
+        Создание проекта
+        :param csv_file_path: Путь к выбранному пользователю файлу .csv спецификации
+        :param root_path: Путь к хранилищу проектов
+        """
         project_name = self._ctrl_settings.create_project(csv_file_path, root_path)
         if project_name:
             self._model.settings.project_name = project_name
 
     def _parse_data_frame(self):
+        """
+        Препроцессинг данных файла спецификации
+        """
         file_path = os.path.join(self._model.settings.root_path, self._model.settings.project_name, 'data.csv')
         norm_req_df = self._ctrl_process_csv.parse_csv_normalized(file_path)
         req_df = self._ctrl_process_csv.parse_csv(file_path)
@@ -55,7 +72,13 @@ class ControllerMain:
         else:
             logger.error("Ошибка обработки данных CSV")
 
-    def check_single_requirement_slot(self, cluster_mode, nlp_mode, requirement_id):
+    def check_single_requirement_slot(self, cluster_mode: int, nlp_mode: int, requirement_id: str):
+        """
+        Слот для осуществления частичной проверки - поиска ближайших требований к заданному
+        :param cluster_mode: Режим кластеризации
+        :param nlp_mode: Режим преобразования предложений в числовые вектора
+        :param requirement_id: ID требования, к которому необходимо найти ближайшее
+        """
         try:
             nlp_model = self._init_nlp_model(nlp_mode)
             assert nlp_model
@@ -64,10 +87,16 @@ class ControllerMain:
             assert cluster_model
             cluster = cluster_model.get_nearest(requirement_id)
             self._model.result.requirements_cluster = cluster
-        except AssertionError as e:
-            logger.error(e)
+        except AssertionError as ex:
+            logger.error(ex)
 
-    def check_full_requirements_slot(self, cluster_mode, nlp_mode, measure):
+    def check_full_requirements_slot(self, cluster_mode: int, nlp_mode: int, measure: float):
+        """
+        Слот для осуществления полной проверки
+        :param cluster_mode: Режим кластеризации
+        :param nlp_mode: Режим преобразования предложений в числовые вектора
+        :param measure: Минимально допустимое расстояние между векторами
+        """
         try:
             nlp_model = self._init_nlp_model(nlp_mode)
             assert nlp_model
@@ -76,45 +105,75 @@ class ControllerMain:
             assert cluster_model
             inaccuracies = cluster_model.get_inaccuracies(measure)
             self._model.result.inaccuracies = inaccuracies
-        except AssertionError as e:
-            logger.error(e)
+        except AssertionError as ex:
+            logger.error(ex)
 
-    def _init_nlp_model(self, nlp_mode):
+    def _init_nlp_model(self, nlp_mode: int) -> NlpParent:
+        """
+        Предоставление модели преобразования предложений в вектора в зависимости от режима
+        :param nlp_mode: Выбранный режим
+        :return: Модель преобразования предложений в вектора
+        """
+        model = self._set_up_model(nlp_mode)
+        if not model:
+            model = self._get_model(nlp_mode)
+        return model
+
+    def _set_up_model(self, nlp_mode: int) -> NlpParent:
+        """
+        Инициализация модели преобразования предложений в вектора в зависимости от режима
+        :param nlp_mode: Выбранный режим
+        :return: Модель преобразования предложений в вектора
+        """
+        nlp_model = None
         if nlp_mode == 0:
             if self._model.nlp.cosine is None:
                 nlp_model = self._ctrl_init_model.init_nlp_model(nlp_mode, self._model.data_frame.norm_req_df)
                 self._model.nlp.cosine = nlp_model
-            else:
-                nlp_model = self._model.nlp.cosine
         elif nlp_mode == 1:
             if self._model.nlp.tfidf is None:
                 nlp_model = self._ctrl_init_model.init_nlp_model(nlp_mode, self._model.data_frame.norm_req_df)
                 self._model.nlp.tfidf = nlp_model
-            else:
-                nlp_model = self._model.nlp.tfidf
         elif nlp_mode == 2:
             if self._model.nlp.doc2vec_dm is None:
                 nlp_model = self._ctrl_init_model.init_nlp_model(nlp_mode, self._model.data_frame.req_df)
                 self._model.nlp.doc2vec_dm = nlp_model
-            else:
-                nlp_model = self._model.nlp.doc2vec_dm
         elif nlp_mode == 3:
             if self._model.nlp.doc2vec_dbow is None:
                 nlp_model = self._ctrl_init_model.init_nlp_model(nlp_mode, self._model.data_frame.req_df)
                 self._model.nlp.doc2vec_dbow = nlp_model
-            else:
-                nlp_model = self._model.nlp.doc2vec_dbow
         elif nlp_mode == 4:
             if self._model.nlp.bert is None:
                 nlp_model = self._ctrl_init_model.init_nlp_model(nlp_mode, self._model.data_frame.req_df)
                 self._model.nlp.bert = nlp_model
-            else:
-                nlp_model = self._model.nlp.bert
+        else:
+            nlp_model = None
+        return nlp_model
+
+    def _get_model(self, nlp_mode: int) -> NlpParent:
+        """
+        Получение уже инициализированной модели преобразования предложений в вектора в зависимости от режима
+        :param nlp_mode: Выбранный режим
+        :return: Модель преобразования предложений в вектора
+        """
+        if nlp_mode == 0:
+            nlp_model = self._model.nlp.cosine
+        elif nlp_mode == 1:
+            nlp_model = self._model.nlp.tfidf
+        elif nlp_mode == 2:
+            nlp_model = self._model.nlp.doc2vec_dm
+        elif nlp_mode == 3:
+            nlp_model = self._model.nlp.doc2vec_dbow
+        elif nlp_mode == 4:
+            nlp_model = self._model.nlp.bert
         else:
             nlp_model = None
         return nlp_model
 
     def save_project_slot(self):
+        """
+        Слот для сохранения проекта
+        """
         state = True
         self._ctrl_save.set_project_path(
             os.path.join(self._model.settings.root_path, self._model.settings.project_name))
@@ -130,7 +189,11 @@ class ControllerMain:
             state = state and self._ctrl_save.save_to_file(self._model.nlp.bert, "bert")
         self._model.save.save_state = state
 
-    def download_project_slot(self, file_path):
+    def download_project_slot(self, file_path: str):
+        """
+        Слот для загрузки проекта
+        :param file_path: Путь к директории проекта
+        """
         root_path = os.path.dirname(file_path)
         if root_path:
             project_name = str(file_path).split("/")[-1]

@@ -1,15 +1,21 @@
+"""
+Модуль преобразования предложений в числовые вектора методом TF-IDF
+"""
 import pandas as pd
-
-from rqadviser.nlp.nlp_parent import NlpParent
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 
+from rqadviser.nlp.nlp_parent import NlpParent
+
 
 class TfidfProcessor(NlpParent):
-    def __init__(self, df):
-        super().__init__(df)
-
+    """
+    Модуль преобразования предложений в числовые вектора методом TF-IDF
+    """
     def prepare(self):
+        """
+        Вычисление векторов
+        """
         self._requirement_df["Requirement"] = self._requirement_df.apply(lambda row: " ".join(row["Requirement"]),
                                                                          axis=1)
         vec = TfidfVectorizer(ngram_range=(1, 2), min_df=0.01, max_df=0.50)

@@ -1,17 +1,29 @@
+"""
+Контроллер инициализации моделей кластеризации и преобразования текста в вектора в зависимости от выбранного режима
+"""
+import pandas as pd
+
 from rqadviser.clustering.agglomerative_processor import AgglomerativeProcessor
 from rqadviser.clustering.dbscan_processor import DbscanProcessor
 from rqadviser.clustering.em_processor import EMProcessor
 from rqadviser.clustering.kmeans_processor import KmeansProcessor
 from rqadviser.nlp.bert_processor import BertProcessor
 from rqadviser.nlp.cosine_processor import CosineProcessor
-from rqadviser.nlp.doc2vecdbow_processor import Doc2VecDbowProcessor
-from rqadviser.nlp.doc2vecdm_processor import Doc2VecDmProcessor
+from rqadviser.nlp.doc2vec_processor import Doc2VecProcessor
 from rqadviser.nlp.tfidf_processor import TfidfProcessor
 
 
 class ControllerInitModel:
+    """
+    Контроллер инициализации кластеризации и преобразования текста в вектора в зависимости от выбранного режима
+    """
     @staticmethod
-    def init_nlp_model(mode, requirement_df):
+    def init_nlp_model(mode: int, requirement_df: pd.DataFrame):
+        """
+        :param mode: Тип модели преобразования текста в вектора (0-4)
+        :param requirement_df: Спецификация требований в виде списка предложений
+        :return: Инициализированная модель преобразования текста в вектора
+        """
         nlp_model = None
         if requirement_df.empty:
             return nlp_model
@@ -20,16 +32,22 @@ class ControllerInitModel:
         if mode == 1:
             nlp_model = TfidfProcessor(requirement_df)
         if mode == 2:
-            nlp_model = Doc2VecDmProcessor(requirement_df)
+            nlp_model = Doc2VecProcessor(requirement_df, mode="dm")
         if mode == 3:
-            nlp_model = Doc2VecDbowProcessor(requirement_df)
+            nlp_model = Doc2VecProcessor(requirement_df, mode="dbow")
         if mode == 4:
             nlp_model = BertProcessor(requirement_df)
         nlp_model.prepare()
         return nlp_model
 
     @staticmethod
-    def init_clustering(mode, requirement_df, vector_df):
+    def init_clustering(mode: int, requirement_df: pd.DataFrame, vector_df: pd.DataFrame):
+        """
+        :param mode: Тип модели кластеризации (0-4)
+        :param requirement_df: Спецификация требований в виде списка предложений
+        :param vector_df: Спецификация требований в виде списка векторов
+        :return: Инициализированная модель кластеризации
+        """
         cluster_model = None
         if requirement_df.empty:
             return cluster_model

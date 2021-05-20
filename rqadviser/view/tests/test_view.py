@@ -1,6 +1,16 @@
+"""
+Test
+"""
 import unittest
 
 
 class TestView(unittest.TestCase):
-    def test_1(self):
+    """
+    Test
+    """
+    @staticmethod
+    def test_1():
+        """
+        Test
+        """
         assert True
