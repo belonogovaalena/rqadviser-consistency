@@ -4,7 +4,7 @@
 import logging
 import os
 import pickle  # noqa: S403
-from typing import Any
+from typing import Optional
 
 from rqadviser.nlp.nlp_parent import NlpParent
 
@@ -38,7 +38,7 @@ class ControllerDownload:
         """
         return os.path.join(self.__project_path, "{0}.pkl".format(name))
 
-    def download_model_if_exists(self, model: str) -> Any[NlpParent, None]:
+    def download_model_if_exists(self, model: str) -> Optional[NlpParent]:
         """
         Загрузка модели из файла .pkl
         :param model: Наименование модели

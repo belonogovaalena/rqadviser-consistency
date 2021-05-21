@@ -3,7 +3,7 @@
 """
 import logging
 import os
-from typing import Any
+from typing import Optional
 
 from rqadviser.clustering.clustering_parent import ClusteringParent
 from rqadviser.controller.ctrl_download import ControllerDownload
@@ -112,7 +112,7 @@ class ControllerMain:
         except AssertionError as ex:
             logger.error(ex)
 
-    def _init_nlp_model(self, nlp_mode: int) -> NlpParent:
+    def _init_nlp_model(self, nlp_mode: int) -> Optional[NlpParent]:
         """
         Предоставление модели преобразования предложений в вектора в зависимости от режима
         :param nlp_mode: Выбранный режим
@@ -123,7 +123,7 @@ class ControllerMain:
             model = self._get_model(nlp_mode)
         return model
 
-    def _set_up_model(self, nlp_mode: int) -> Any[NlpParent, None]:
+    def _set_up_model(self, nlp_mode: int) -> Optional[NlpParent]:
         """
         Инициализация модели преобразования предложений в вектора в зависимости от режима
         :param nlp_mode: Выбранный режим
@@ -154,13 +154,13 @@ class ControllerMain:
             nlp_model = None
         return nlp_model
 
-    def _get_model(self, nlp_mode: int) -> Any[NlpParent, None]:
+    def _get_model(self, nlp_mode: int) -> Optional[NlpParent]:
         """
         Получение уже инициализированной модели преобразования предложений в вектора в зависимости от режима
         :param nlp_mode: Выбранный режим
         :return: Модель преобразования предложений в вектора
         """
-        nlp_model: Any[NlpParent, None] = None
+        nlp_model: Optional[NlpParent] = None
         if nlp_mode == 0:
             nlp_model = self._model.nlp.cosine
         elif nlp_mode == 1:

@@ -1,7 +1,7 @@
 """
 Контроллер инициализации моделей кластеризации и преобразования текста в вектора в зависимости от выбранного режима
 """
-from typing import Any
+from typing import Optional
 
 import pandas as pd
 
@@ -22,13 +22,13 @@ class ControllerInitModel:
     Контроллер инициализации кластеризации и преобразования текста в вектора в зависимости от выбранного режима
     """
     @staticmethod
-    def init_nlp_model(mode: int, requirement_df: pd.DataFrame) -> Any[NlpParent, None]:
+    def init_nlp_model(mode: int, requirement_df: pd.DataFrame) -> Optional[NlpParent]:
         """
         :param mode: Тип модели преобразования текста в вектора (0-4)
         :param requirement_df: Спецификация требований в виде списка предложений
         :return: Инициализированная модель преобразования текста в вектора
         """
-        nlp_model: Any[NlpParent, None] = None
+        nlp_model: Optional[NlpParent] = None
         if requirement_df.empty:
             return nlp_model
         if mode == 0:
@@ -41,7 +41,8 @@ class ControllerInitModel:
             nlp_model = Doc2VecProcessor(requirement_df, mode="dbow")
         if mode == 4:
             nlp_model = BertProcessor(requirement_df)
-        nlp_model.prepare()
+        if nlp_model:
+            nlp_model.prepare()
         return nlp_model
 
     @staticmethod
@@ -52,7 +53,7 @@ class ControllerInitModel:
         :param vector_df: Спецификация требований в виде списка векторов
         :return: Инициализированная модель кластеризации
         """
-        cluster_model: Any[ClusteringParent, None] = None
+        cluster_model: Optional[ClusteringParent] = None
         if requirement_df.empty:
             return cluster_model
         if mode == 0:
@@ -69,5 +70,6 @@ class ControllerInitModel:
             cluster_model = AgglomerativeProcessor(requirement_df, vector_df, 'single')
         elif mode == 6:
             cluster_model = DbscanProcessor(requirement_df, vector_df)
-        cluster_model.prepare()
+        if cluster_model:
+            cluster_model.prepare()
         return cluster_model
