@@ -1,39 +1,39 @@
-# """
-# Тест инициализации объектов
-# """
-# import pickle
-# import unittest
-# from pathlib import Path
-#
-#
-# class TestControllerInit(unittest.TestCase):
-#     """
-#     Тест инициализации объектов
-#     """
-#     def setUp(self) -> None:
-#         self._ctrl = ControllerInit
-#         self._ctrl.set_project_path(OUTPUT_PATH)
-#
-#     def test_1_download_project(self):
-#         """
-#         Тест загрузки объекта
-#         """
-#         object_ = {'foo': 'bar'}
-#         Path(OUTPUT_PATH).mkdir(parents=True, exist_ok=True)
-#         file_path = Path.joinpath(OUTPUT_PATH, "tests.pkl")
-#         with open(file_path, 'wb') as output:
-#             pickle.dump(object_, output, pickle.HIGHEST_PROTOCOL)
-#         model = self._ctrl.download_model_if_exists("tests")
-#         assert model == object_, "Ошибка загрузки объекта"
-#
-#     def test_2_download_error(self):
-#         """
-#         Тест загрузки объекта
-#         """
-#         model = self._ctrl.download_model_if_exists("test2")
-#         assert not model, "Ошибка загрузки несуществующего объекта"
-#
-#     def tearDown(self):
-#         file_path = Path.joinpath(OUTPUT_PATH, "tests.pkl")
-#         if Path.exists(file_path):
-#             Path.unlink(file_path)
+"""
+Тест инициализации объектов
+"""
+import unittest
+from unittest import mock
+
+import pandas as pd
+
+from rqadviser.controller.ctrl_init_model import ControllerInitModel
+from rqadviser.controller.tests.common import TEST_CSV_PATH
+
+
+class TestControllerInit(unittest.TestCase):
+    """
+    Тест инициализации объектов
+    """
+    def setUp(self) -> None:
+        self._ctrl = ControllerInitModel()
+
+    def test_1_init_clustering(self):
+        """
+        Тест инициализации модели кластеризации
+        """
+        requirement_df = pd.read_csv(TEST_CSV_PATH)
+        vector_df = pd.DataFrame([[0.9, 0.5, 0.6], [0.0, 0.0, 1.0], [1.0, 1.0, 1.0],
+                                  [0.6, 0.4, 0.6], [0.4, 0.6, 1.0], [1.0, 0.7, 1.0]])
+        assert not self._ctrl.init_nlp_model(0, pd.DataFrame())
+        for i in range(0, 7):
+            assert self._ctrl.init_clustering(i, requirement_df, vector_df)
+
+    @mock.patch('rqadviser.controller.ctrl_init_model.ControllerInitModel.prepare')
+    def test_2_init_nlp(self, _):
+        """
+        Тест инициализации модели кластеризации
+        """
+        requirement_df = pd.read_csv(TEST_CSV_PATH)
+        assert not self._ctrl.init_clustering(0, pd.DataFrame(), pd.DataFrame())
+        for i in range(0, 5):
+            assert self._ctrl.init_nlp_model(i, requirement_df)

@@ -21,8 +21,7 @@ class ControllerInitModel:
     """
     Контроллер инициализации кластеризации и преобразования текста в вектора в зависимости от выбранного режима
     """
-    @staticmethod
-    def init_nlp_model(mode: int, requirement_df: pd.DataFrame) -> Optional[NlpParent]:
+    def init_nlp_model(self, mode: int, requirement_df: pd.DataFrame) -> Optional[NlpParent]:
         """
         :param mode: Тип модели преобразования текста в вектора (0-4)
         :param requirement_df: Спецификация требований в виде списка предложений
@@ -42,8 +41,15 @@ class ControllerInitModel:
         if mode == 4:
             nlp_model = BertProcessor(requirement_df)
         if nlp_model:
-            nlp_model.prepare()
+            self.prepare(nlp_model)
         return nlp_model
+
+    @staticmethod
+    def prepare(model):
+        """
+        :param model: Модель NLP
+        """
+        model.prepare()
 
     @staticmethod
     def init_clustering(mode: int, requirement_df: pd.DataFrame, vector_df: pd.DataFrame):

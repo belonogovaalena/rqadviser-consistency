@@ -15,7 +15,7 @@ class TestControllerDownload(unittest.TestCase):
     """
     def setUp(self) -> None:
         self._ctrl = ControllerDownload()
-        self._ctrl.set_project_path(OUTPUT_PATH)
+        self._ctrl.set_project_path(str(OUTPUT_PATH))
 
     def test_1_download_project(self):
         """

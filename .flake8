@@ -1,4 +1,4 @@
 [flake8]
-ignore = S101
+ignore = S101, S403
 max-line-length = 120
 application_import_names = rqadviser
