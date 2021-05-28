@@ -6,7 +6,7 @@ from typing import Optional
 from rqadviser.nlp.nlp_parent import NlpParent
 
 
-class ModelNlp:
+class ModelNlp:  # pylint: disable=too-many-instance-attributes
     """
     Модель преобразования предложений в вектора
     """

@@ -22,20 +22,19 @@ class ControllerMain:
     """
     def __init__(self, model: ModelMain):
         self._model = model
-
-        self._view = MainView(self, self._model)
-
         self._ctrl_process_csv = ControllerProcessCsv()
         self._ctrl_settings = ControllerSettings()
         self._ctrl_init_model = ControllerInitModel()
         self._ctrl_save = ControllerSave()
         self._ctrl_download = ControllerDownload()
+        self._setup_view()
 
+    def _setup_view(self):
+        self._view = MainView(self, self._model)
         self._model.result.inaccuracies_signal.signal.connect(self._view.full_check_complete)
         self._model.data_frame.df_signal.signal.connect(self._view.df_changed_slot)
         self._model.result.cluster_signal.signal.connect(self._view.single_check_complete)
         self._model.save.saved_signal.signal.connect(self._view.project_saved)
-
         self._view.show()
 
     def req_file_chosen_slot(self, csv_file_path: str):
