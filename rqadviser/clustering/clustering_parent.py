@@ -14,6 +14,7 @@ class ClusteringParent:
     """
     Родительский модуль для кластеризации
     """
+
     def __init__(self, requirement_df: pd.DataFrame, vector_df: pd.DataFrame, algorithm: ClusterMixin):
         self._requirement_df = requirement_df
         self._vector_df = vector_df
@@ -43,7 +44,8 @@ class ClusteringParent:
         # получаем перечень кластеров
         clusters = self._requirement_df["Cluster"].unique().tolist()
         clusters.sort()
-        consistencies = pd.DataFrame(columns=['R1', 'R2', 'Res'])
+        consistencies = pd.DataFrame(columns=['ID требования № 1', 'ID требования № 2',
+                                              'Расстояние между противоречащими требованиями'])
         for cluster in clusters:
             # определяем группу требований для конкретного кластера
             group = self._requirement_df.loc[self._requirement_df["Cluster"] == cluster, "ID"].tolist()
@@ -57,7 +59,10 @@ class ClusteringParent:
                     dist = scipy.spatial.distance.cosine(v1, v2)
                     # если оно оказывается меньше допустимого - добавляем пару требований как противоречие
                     if dist < measure:
-                        consistencies = consistencies.append(pd.DataFrame({"R1": pair[0], "R2": pair[1], "Res": dist},
+                        consistencies = consistencies.append(pd.DataFrame({"ID требования № 1": pair[0],
+                                                                           "ID требования № 2": pair[1],
+                                                                           "Расстояние между противоречащими "
+                                                                           "требованиями": dist},
                                                                           index=[0]), ignore_index=True)
         del self._vector_df["ID"]
         return consistencies

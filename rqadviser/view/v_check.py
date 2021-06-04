@@ -57,10 +57,10 @@ class CheckView(QMainWindow):
         central_widget.setLayout(grid_layout)
         label_clus = QLabel("Выбор алгоритма кластеризации")
         label_clus.setStyleSheet("font-weight: bold")
-        grid_layout.addWidget(label_clus, 0, 0)
+        grid_layout.addWidget(label_clus, 0, 1)
         label_nlp = QLabel("Выбор алгоритма NLP")
         label_nlp.setStyleSheet("font-weight: bold")
-        grid_layout.addWidget(label_nlp, 0, 1)
+        grid_layout.addWidget(label_nlp, 0, 0)
 
         simple_nlp_but = QRadioButton("Simple cosine method")
         self._buttons_nlp.addButton(simple_nlp_but, 0)

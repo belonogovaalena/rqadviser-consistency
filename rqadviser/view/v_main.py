@@ -110,7 +110,8 @@ class MainView(QMainWindow):
         """
         Слот для отображения результатов частичной проверки
         """
-        result_view = ViewResult(self._model.result.requirements_cluster, self)
+        message = "Ниже приведен список ближайших по смыслу требований к заданному:"
+        result_view = ViewResult(self._model.result.requirements_cluster, message, self)
         result_view.show()
         result_view.setWindowTitle("Частичная проверка")
         result_view.setFixedSize(result_view.size())
@@ -135,7 +136,8 @@ class MainView(QMainWindow):
         """
         Слот для отображения результатов полной проверки
         """
-        result_view = ViewResult(self._model.result.inaccuracies, self)
+        message = "Ниже приведен список пар требований, являющихся противоречиями, и расстояние между ними:"
+        result_view = ViewResult(self._model.result.inaccuracies, message, self)
         result_view.show()
         result_view.setWindowTitle("Полная проверка")
         result_view.setFixedSize(result_view.size())
